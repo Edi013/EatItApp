@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.4.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>ide</groupId>
     <artifactId>eat-it</artifactId>
@@ -26,6 +26,12 @@
         <tag/>
         <url/>
     </scm>
+    <repositories>
+        <repository>
+            <id>hibernate-tools</id>
+            <url>https://repo.hibernate.org/nexus/content/repositories/releases/</url>
+        </repository>
+    </repositories>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -38,7 +44,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -56,18 +61,16 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
             <plugin>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-tools-maven-plugin</artifactId>
-                <version>5.5.6.Final</version> <!-- Use the appropriate version -->
+                <version>5.5.6.Final</version>
                 <executions>
                     <execution>
                         <goals>
@@ -75,15 +78,7 @@
                         </goals>
                     </execution>
                 </executions>
-<!--                <configuration>-->
-<!--                    <jdbcDriver>com.mysql.cj.jdbc.Driver</jdbcDriver>-->
-<!--                    <jdbcUrl>jdbc:mysql://localhost:3306/EatItApp?useSSL=false&serverTimezone=UTC</jdbcUrl>-->
-<!--                    <hibernateDialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernateDialect>-->
-<!--                    <hibernateCfgFile></hibernateCfgFile> &lt;!&ndash; Leave empty for now &ndash;&gt;-->
-<!--                    <packageName>com.yourpackage.model</packageName> &lt;!&ndash; The package where entities should be generated &ndash;&gt;-->
-<!--                </configuration>-->
             </plugin>
         </plugins>
     </build>
-
 </project>
