@@ -3,6 +3,9 @@ package ide.eatit.repository;
 import ide.eatit.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
-    // Custom query methods can be added here
+import java.util.UUID;
+
+public interface UserRepository extends JpaRepository<User, UUID> {
+    boolean existsByUsername(String username);
+    User getByUsername(String username);
 }
