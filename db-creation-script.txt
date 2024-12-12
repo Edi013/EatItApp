@@ -1,0 +1,57 @@
+-- Step 1: Create the Database
+CREATE DATABASE EatItApp;
+
+-- Step 2: Use the Database
+USE EatItApp;
+
+-- Step 3: Create the `users` table 
+CREATE TABLE users (
+    id CHAR(36) PRIMARY KEY,  -- UUID field stored as a CHAR(36)
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+-- Step 4: Create the `products` table 
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    value DECIMAL(10, 2) NOT NULL  -- Adding value field to store price
+);
+
+-- Step 5: Create the `recipes` table 
+CREATE TABLE recipes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    estimatedCost DECIMAL(10, 2),
+    createdBy CHAR(36) NOT NULL,  -- UUID foreign key
+    FOREIGN KEY (createdBy) REFERENCES users(id) ON DELETE NO ACTION
+);
+
+-- Step 6: Create the `recipe_products` table
+CREATE TABLE recipe_products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    recipe_id INT NOT NULL,
+    product_id INT NOT NULL,
+    FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE NO ACTION,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE NO ACTION
+);
+
+-- Step 7: Seed admin user
+INSERT INTO users (id, username, password) 
+VALUES 
+(UUID(), 'admin', SHA2('admin', 256));  -- Using SHA256 to hash the password
+
+-- Step 8: When an user is deleted, give the recipe to the admin
+DELIMITER $$
+CREATE TRIGGER set_creator_to_admin
+AFTER DELETE ON users
+FOR EACH ROW
+BEGIN
+    UPDATE recipes
+    SET createdBy = (SELECT id FROM users WHERE username = 'admin')
+    WHERE createdBy = OLD.id;
+END $$
+
+DELIMITER ;
+
