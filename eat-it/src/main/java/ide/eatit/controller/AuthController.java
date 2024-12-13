@@ -1,6 +1,5 @@
 package ide.eatit.controller;
 
-import ide.eatit.model.User;
 import ide.eatit.model.dto.AuthRequest;
 import ide.eatit.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
