@@ -2,11 +2,13 @@ package ide.eatit.service;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 import java.util.Optional;
 
 import ide.eatit.model.User;
 import ide.eatit.model.dto.AuthRequest;
 import ide.eatit.repository.UserRepository;
+import ide.eatit.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -38,19 +40,24 @@ public class AuthService {
 
     public ResponseEntity<?> login(AuthRequest authRequest) {
         try {
-            Optional<User> user = Optional.ofNullable(userRepository.getByUsername(authRequest.getUsername()));
+            Optional<User> optionalUser = Optional.ofNullable(userRepository.getByUsername(authRequest.getUsername()));
 
-            if (user.isEmpty()) {
+            if (optionalUser.isEmpty()) {
                 return ResponseEntity.status(401).body("Invalid credentials. Bad username.");
             }
 
-            if (!hashPasswordWithSHA256(authRequest.getPassword()).equals(user.get().getPassword()))
+            User user = optionalUser.get();
+            if (!hashPasswordWithSHA256(authRequest.getPassword()).equals(user.getPassword()))
                 return ResponseEntity.status(401).body("Invalid credentials. Bad password.");
 
-            //generate jwt and return
+            String token = JwtUtil.generateToken(user.getUsername());
 
-            return ResponseEntity.status(200).body("Login successful!");
-
+            return ResponseEntity.status(200).body(Map.of(
+                    "status", "OK",
+                    "statusCode", "200",
+                    "message", "Login successful!",
+                    "token", token
+            ));
         } catch (Exception e) {
             return ResponseEntity.status(500).body("An error occurred during login: " + e.getMessage());
         }
