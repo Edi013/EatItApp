@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 @Table(name = "recipes")
 public class Recipe {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -19,7 +20,7 @@ public class Recipe {
     private String description;
 
     @Column(name = "estimatedCost", precision = 10, scale = 2)
-    private BigDecimal estimatedCost;
+    private BigDecimal estimatedCost = BigDecimal.ZERO;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "createdBy", nullable = false)
