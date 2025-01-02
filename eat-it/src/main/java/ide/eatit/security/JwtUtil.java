@@ -7,7 +7,7 @@ import java.security.Key;
 import java.util.Date;
 
 public class JwtUtil {
-    private static final String SECRET = "your-secret-key-final-123-6497";
+    private static final String SECRET = "4r9g8hB9w6xP0yT2vQ1hE4zD7jK3nL8r9P2mL3zF8T9uF7w9bY0pX7uK3oT2nV";
     private static final long EXPIRATION_TIME = 86_400_000; // 10 days
     private static final Key SIGNING_KEY = Keys.hmacShaKeyFor(SECRET.getBytes());
 
@@ -22,7 +22,7 @@ public class JwtUtil {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, SECRET)
+                .signWith(SignatureAlgorithm.HS256, SECRET)
                 .compact();
     }
 
