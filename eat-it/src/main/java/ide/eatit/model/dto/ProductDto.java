@@ -8,7 +8,7 @@ public class ProductDto {
     private String name;
 
     //Value per 100g
-    private BigDecimal value;
+    private double value;
 
     public Integer getId() {
         return id;
@@ -26,11 +26,11 @@ public class ProductDto {
         this.name = name;
     }
 
-    public BigDecimal getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(BigDecimal value) {
+    public void setValue(double value) {
         this.value = value;
     }
 }

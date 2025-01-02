@@ -41,26 +41,24 @@ public class ProductService {
     @Transactional
     public Product updateProduct(Integer id, Product productDetails) {
         Optional<Product> existingProductOptional = productRepository.findById(id);
-        if (existingProductOptional.isPresent()) {
-            Product existingProduct = existingProductOptional.get();
-            existingProduct.setName(productDetails.getName());
-            existingProduct.setValue(productDetails.getValue());
-
-            return productRepository.save(existingProduct);
-        } else {
+        if (existingProductOptional.isEmpty()) {
             logger.error("Product not found while updating, id {}", id);
             throw new RuntimeException("Product not found with id: " + id);
         }
+        Product existingProduct = existingProductOptional.get();
+        existingProduct.setName(productDetails.getName());
+        existingProduct.setValue(productDetails.getValue());
+
+        return productRepository.save(existingProduct);
     }
 
     @Transactional
     public void deleteProduct(Integer id) {
         Optional<Product> existingProductOptional = productRepository.findById(id);
-        if (existingProductOptional.isPresent()) {
-            productRepository.deleteById(id);
-        } else {
+        if (existingProductOptional.isEmpty()) {
             logger.error("Product not found while deleting, id {}", id);
             throw new RuntimeException("Product not found with id: " + id);
         }
+        productRepository.deleteById(id);
     }
 }

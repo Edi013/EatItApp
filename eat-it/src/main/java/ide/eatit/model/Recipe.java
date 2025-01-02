@@ -20,7 +20,7 @@ public class Recipe {
     private String description;
 
     @Column(name = "estimatedCost", precision = 10, scale = 2)
-    private BigDecimal estimatedCost = BigDecimal.ZERO;
+    private double estimatedCost = 0;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "createdBy", nullable = false)
@@ -50,11 +50,11 @@ public class Recipe {
         this.description = description;
     }
 
-    public BigDecimal getEstimatedCost() {
+    public double getEstimatedCost() {
         return estimatedCost;
     }
 
-    public void setEstimatedCost(BigDecimal estimatedCost) {
+    public void setEstimatedCost(double estimatedCost) {
         this.estimatedCost = estimatedCost;
     }
 

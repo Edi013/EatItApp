@@ -17,7 +17,7 @@ public class Product {
 
     //Value per 100g
     @Column(name = "value", nullable = false, precision = 10, scale = 2)
-    private BigDecimal value;
+    private double value;
 
     public Integer getId() {
         return id;
@@ -35,11 +35,11 @@ public class Product {
         this.name = name;
     }
 
-    public BigDecimal getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(BigDecimal value) {
+    public void setValue(double value) {
         this.value = value;
     }
 
