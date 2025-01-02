@@ -16,7 +16,7 @@ public class Product {
     private String name;
 
     //Value per 100g
-    @Column(name = "value", nullable = false, precision = 10, scale = 2)
+    @Column(name = "value", nullable = false)
     private double value;
 
     public Integer getId() {

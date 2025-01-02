@@ -19,7 +19,7 @@ public class Recipe {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "estimatedCost", precision = 10, scale = 2)
+    @Column(name = "estimatedCost")
     private double estimatedCost = 0;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
