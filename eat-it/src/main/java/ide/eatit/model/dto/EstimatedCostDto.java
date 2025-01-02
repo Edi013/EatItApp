@@ -1,19 +1,15 @@
 package ide.eatit.model.dto;
 
-import java.math.BigDecimal;
-
 public class EstimatedCostDto {
 
     private Integer recipeId;
-    private BigDecimal estimatedCost;
+    private double estimatedCost;
 
-    // Constructor
-    public EstimatedCostDto(Integer recipeId, BigDecimal estimatedCost) {
+    public EstimatedCostDto(Integer recipeId, double estimatedCost) {
         this.recipeId = recipeId;
         this.estimatedCost = estimatedCost;
     }
 
-    // Getters and Setters
     public Integer getRecipeId() {
         return recipeId;
     }
@@ -22,11 +18,11 @@ public class EstimatedCostDto {
         this.recipeId = recipeId;
     }
 
-    public BigDecimal getEstimatedCost() {
+    public double getEstimatedCost() {
         return estimatedCost;
     }
 
-    public void setEstimatedCost(BigDecimal estimatedCost) {
+    public void setEstimatedCost(double estimatedCost) {
         this.estimatedCost = estimatedCost;
     }
 }
