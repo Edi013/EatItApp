@@ -1,22 +1,13 @@
-package ide.eatit.model;
-
-import jakarta.persistence.*;
+package ide.eatit.model.dto;
 
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "products")
-public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+public class ProductDto {
     private Integer id;
 
-    @Column(name = "name", nullable = false, length = 100)
     private String name;
 
     //Value per 100g
-    @Column(name = "value", nullable = false, precision = 10, scale = 2)
     private BigDecimal value;
 
     public Integer getId() {
@@ -42,5 +33,4 @@ public class Product {
     public void setValue(BigDecimal value) {
         this.value = value;
     }
-
 }

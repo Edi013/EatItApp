@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AuthService {
@@ -22,7 +23,6 @@ public class AuthService {
     private UserRepository userRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(UserRepository.class);
-
 
     private String hashPasswordWithSHA256(String password) {
         try {
@@ -44,6 +44,7 @@ public class AuthService {
         }
     }
 
+    @Transactional(readOnly = true)
     public ResponseEntity<?> login(AuthRequest authRequest) {
         try {
             Optional<User> optionalUser = Optional.ofNullable(userRepository.getByUsername(authRequest.getUsername()));
@@ -71,6 +72,7 @@ public class AuthService {
         }
     }
 
+    @Transactional()
     public ResponseEntity<?> register(AuthRequest authRequest) {
         try {
             if (userRepository.existsByUsername(authRequest.getUsername())) {

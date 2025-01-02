@@ -28,27 +28,31 @@ public class RecipeProductService {
 
     private static final Logger logger = LoggerFactory.getLogger(RecipeProductService.class);
 
-
     @Transactional()
-    List<RecipeProduct> addProductsToRecipe(Integer recipeId, List<Integer> productsIds){
+    List<RecipeProduct> addProductsToRecipe(Integer recipeId, List<Integer> productsIds, List<Integer> productsQuantities){
         List<RecipeProduct> result = new ArrayList<>();
         Recipe recipe = getRecipeById(recipeId);
 
-        for(Integer productId : productsIds) {
-            result.add(addProductToRecipe(getProductById(productId), recipe));
+        for (int i = 0; i < productsIds.size(); i++) {
+            Integer productId = productsIds.get(i);
+            Integer productQuantity = productsQuantities.get(i);
+
+            // You can now use productId and productQuantity for each iteration
+            result.add(createProductRecipe(getProductById(productId), recipe, productQuantity));
         }
         return result;
     }
 
     @Transactional
-    public RecipeProduct addRecipeProduct(Integer recipeId, Integer productId) {
-        return addProductToRecipe(getProductById(productId), getRecipeById(recipeId));
+    public RecipeProduct addProductToRecipe(Integer recipeId, Integer productId, Integer productQuantity) {
+        return createProductRecipe(getProductById(productId), getRecipeById(recipeId), productQuantity);
     }
 
-    private RecipeProduct addProductToRecipe(Product product, Recipe recipe) {
+    private RecipeProduct createProductRecipe(Product product, Recipe recipe, Integer productQuantity) {
         RecipeProduct recipeProducts = new RecipeProduct();
         recipeProducts.setProduct(product);
         recipeProducts.setRecipe(recipe);
+        recipeProducts.setQuantity(productQuantity);
         recipeProductRepository.save(recipeProducts);
         return recipeProducts;
     }

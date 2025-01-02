@@ -22,6 +22,13 @@ public class RecipeProduct {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @Column(name="quantity", nullable = false)
+    private Integer quantity = 0;
+
+    public void setQuantity(Integer quantity) {this.quantity = quantity; }
+
+    public Integer getQuantity() {return quantity;}
+
     public Integer getId() {
         return id;
     }

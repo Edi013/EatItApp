@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class RecipeService {
 
     private static final Logger logger = LoggerFactory.getLogger(RecipeService.class);
 
+    @Transactional
     public Recipe createRecipe(RecipeDto recipe) {
         Recipe recipeEntity = new Recipe();
         recipeEntity.setName(recipe.getName());
@@ -34,10 +36,12 @@ public class RecipeService {
         return recipeRepository.save(recipeEntity);
     }
 
+    @Transactional(readOnly = true)
     public List<Recipe> getAllRecipes() {
         return recipeRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public List<Recipe> getAllRecipesByOwner(String userId) {
         Optional<User> userOptional = userRepository.findById(UUID.fromString(userId));
         if(userOptional.isPresent()) {
@@ -47,10 +51,12 @@ public class RecipeService {
         throw new RuntimeException(String.format("User not found, id %s", userId));
     }
 
+    @Transactional(readOnly = true)
     public Optional<Recipe> getRecipeById(Integer id) {
         return recipeRepository.findById(id);
     }
 
+    @Transactional
     public Recipe updateRecipe(Integer id, Recipe recipeDetails) {
         Optional<Recipe> existingRecipeOptional = recipeRepository.findById(id);
         if (existingRecipeOptional.isPresent()) {
@@ -65,6 +71,7 @@ public class RecipeService {
         }
     }
 
+    @Transactional
     public void deleteRecipe(Integer id) {
         Optional<Recipe> existingRecipeOptional = recipeRepository.findById(id);
         if (existingRecipeOptional.isPresent()) {
