@@ -1,0 +1,32 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table users {
+  id UUID [primary key]
+  username varchar [note: 'Unique username for each user']
+  password varchar [note: 'Stores hashed passwords']
+}
+
+Table products {
+  id integer [primary key]
+  name varchar [note: 'Name of the product']
+  value decimal [note: 'Price of the product']
+}
+
+Table recipes {
+  id integer [primary key]
+  name varchar [note: 'Name of the recipe']
+  description text [note: 'Detailed description of the recipe']
+  estimatedCost decimal [note: 'Calculated cost based on product prices']
+  createdBy UUID
+}
+
+Table recipe_products {
+  id integer [primary key]
+  recipe_id integer 
+  product_id integer 
+}
+
+Ref: recipe_products.recipe_id > recipes.id
+Ref: recipe_products.product_id > products.id
+Ref: recipes.createdBy > users.id

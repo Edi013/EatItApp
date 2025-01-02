@@ -33,8 +33,9 @@ CREATE TABLE recipe_products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     recipe_id INT NOT NULL,
     product_id INT NOT NULL,
-    FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE NO ACTION,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE NO ACTION
+    quantity INT NOT NULL DEFAULT 0,
+    FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
 -- Step 7: Seed admin user
@@ -55,3 +56,22 @@ END $$
 
 DELIMITER ;
 
+-- Manually delete the fk, add it again with NO ACTION specified
+SELECT CONSTRAINT_NAME 
+FROM information_schema.KEY_COLUMN_USAGE
+WHERE TABLE_NAME = 'recipes' AND COLUMN_NAME = 'createdBy';
+
+ALTER TABLE recipes
+DROP FOREIGN KEY recipes_ibfk_1 ;
+
+ALTER TABLE recipes
+ADD CONSTRAINT fk_createdBy_users
+FOREIGN KEY (createdBy) REFERENCES users(id)
+ON DELETE NO ACTION;
+
+-- ALTER TABLE recipe_products
+-- ADD COLUMN quantity INT NOT NULL DEFAULT 0;
+
+-- Scripts used while developing 
+SELECT * FROM users;
+SELECT * FROM recipe_products;

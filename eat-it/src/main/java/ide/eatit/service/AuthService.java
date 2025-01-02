@@ -22,7 +22,7 @@ public class AuthService {
     @Autowired
     private UserRepository userRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(UserRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
     private String hashPasswordWithSHA256(String password) {
         try {
