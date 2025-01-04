@@ -1,6 +1,16 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
-import { AppComponent } from './app/app.component';
+import { importProvidersFrom } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+import { AppComponent } from './app/app.component';
+import { appRoutes } from './app/app.routes'; 
+import { AuthGuard } from './app/guards/auth.guard';
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    importProvidersFrom(
+      RouterModule.forRoot(appRoutes, { enableTracing: true }) // Set up the router
+    ),
+    AuthGuard
+  ],
+}).catch(err => console.error(err));
