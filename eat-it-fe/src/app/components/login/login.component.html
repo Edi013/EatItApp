@@ -1,32 +1,31 @@
-  <div class="login-container">
+<div class="login-container">
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-      <h1>Login</h1>
-  
-      <mat-form-field appearance="fill">
+        <h1>Login</h1>
+
+        <mat-form-field appearance="fill">
         <mat-label>Username</mat-label>
         <input matInput type="text" formControlName="username" />
         <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
-          Username is required.
+            Username is required.
         </mat-error>
         <mat-error *ngIf="loginForm.get('username')?.hasError('minlength')">
-          Username must be at least 4 characters long.
+            Username must be at least 4 characters long.
         </mat-error>
-      </mat-form-field>
-  
-      <mat-form-field appearance="fill">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
         <mat-label>Password</mat-label>
         <input matInput type="password" formControlName="password" />
         <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
-          Password is required.
+            Password is required.
         </mat-error>
         <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
-          Password must be at least 4 characters long.
+            Password must be at least 4 characters long.
         </mat-error>
-      </mat-form-field>
-  
-      <button mat-raised-button color="primary" [disabled]="loginForm.invalid">
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" [disabled]="loginForm.invalid">
         Login
-      </button>
+        </button>
     </form>
-  </div>
-  
+</div>

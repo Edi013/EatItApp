@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import Cookies from 'js-cookie';
 
 @Injectable({
-    providedIn: 'root',
-})
+    providedIn: 'root', 
+  })
 export class JwtService{
     private tokenKey = 'jwt';  
 

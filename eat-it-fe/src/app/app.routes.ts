@@ -6,10 +6,10 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 
 export const appRoutes: Routes = [
-    { path: '', redirectTo: '/home', pathMatch: 'full' }, 
-    { path: 'home', component: HomeComponent , canActivate: [AuthGuard]},
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
+    { path: 'home', component: HomeComponent , canActivate: [AuthGuard]},
+    { path: '', redirectTo: '/home', pathMatch: 'full' }, 
     { path: '404', component: NotFoundComponent},
     { path: '**', redirectTo: '/404'},
 ];

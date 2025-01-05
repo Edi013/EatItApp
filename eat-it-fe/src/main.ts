@@ -9,7 +9,7 @@ import { AuthGuard } from './app/guards/auth.guard';
 bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(
-      RouterModule.forRoot(appRoutes, { enableTracing: true }) // Set up the router
+      RouterModule.forRoot(appRoutes, { enableTracing: true }),
     ),
     AuthGuard
   ],

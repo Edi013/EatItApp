@@ -2,24 +2,36 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+// import { AppModule } from '../../app.module';
+import { CommonModule, NgIf } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [ReactiveFormsModule],
+  imports: [ CommonModule,           
+    ReactiveFormsModule,     
+    MatFormFieldModule,     
+    MatInputModule,          
+    MatButtonModule,        
+    MatIconModule,  ],
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  errorMessage: string | null = null;
+  errorMessage: string = "";
 
   constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
+     private formBuilder: FormBuilder,
+     private authService: AuthService,
+     private router: Router,
   ) {
-    this.loginForm = this.fb.group({
+    this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(4)]], 
       password: ['', [Validators.required, Validators.minLength(4)]], 
     });
