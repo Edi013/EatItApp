@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-// import { AppModule } from '../../app.module';
 import { CommonModule, NgIf } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -22,7 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule,  
   ],
 })
-export class LoginComponent {
+export class LoginComponent{
   loginForm: FormGroup;
   errorMessage: string = "";
 
@@ -38,6 +37,8 @@ export class LoginComponent {
   }
 
   async onSubmit(): Promise<void> {
+    if(!this.loginForm) return;
+
     if (this.loginForm.invalid) {
       this.errorMessage = 'Please fill in the form correctly.';
       return;
@@ -47,7 +48,7 @@ export class LoginComponent {
 
     try {
       const response = await this.authService.login(username, password);
-      if (response) {
+      if (response.hasFailed()) {
         this.router.navigate(['/home']);
       }
     } catch (error) {

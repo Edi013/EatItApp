@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import Cookies from 'js-cookie';
+import { LoginResponse } from '../models/dtos/login-response';
 
 @Injectable({
     providedIn: 'root', 
@@ -25,14 +26,14 @@ export class JwtService{
         if (!token) return null;
 
         const payload = token.split('.')[1];  
-        const decodedPayload = atob(payload); // Decode base64 payload
+        const decodedPayload = atob(payload); 
         return JSON.parse(decodedPayload);    
     }
 
     isTokenExpired(): boolean {
     if (!this.getToken()) return true;
 
-        const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+        const currentTime = Math.floor(Date.now() / 1000); 
         return this.getTokenExpirationDate() < currentTime;  
     }
 
@@ -42,6 +43,6 @@ export class JwtService{
     }
 
     getTokenExpirationDate(){
-        return this.decodeToken().exp;
+        return this.decodeToken()?.exp;
     }
 }
