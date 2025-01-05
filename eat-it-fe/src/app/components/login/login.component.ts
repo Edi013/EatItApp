@@ -8,7 +8,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +19,8 @@ import { HttpClient } from '@angular/common/http';
     MatFormFieldModule,     
     MatInputModule,          
     MatButtonModule,        
-    MatIconModule,  ],
+    MatIconModule,  
+  ],
 })
 export class LoginComponent {
   loginForm: FormGroup;
