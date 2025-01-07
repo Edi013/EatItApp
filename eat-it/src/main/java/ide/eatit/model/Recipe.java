@@ -23,7 +23,7 @@ public class Recipe {
     @Column(name = "estimatedCost")
     private double estimatedCost = 0;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "createdBy", referencedColumnName = "id", nullable = false)
     private User createdBy;
 
@@ -72,7 +72,7 @@ public class Recipe {
                 this.id,
                 this.name,
                 this.description,
-                this.createdBy
+                this.createdBy.toString()
         );
     }
 }

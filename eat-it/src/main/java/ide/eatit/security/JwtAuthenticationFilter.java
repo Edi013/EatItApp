@@ -33,11 +33,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             } else {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.getWriter().write("Invalid token");
+                System.out.println("Invalid token for user.");
                 return;
             }
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Missing or invalid Authorization header");
+            System.out.println("Missing token.");
             return;
         }
 

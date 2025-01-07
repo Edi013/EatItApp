@@ -11,7 +11,7 @@ public class RecipeDto {
 
     private String createdBy;
 
-    public RecipeDto(Integer id, String name, String description, User createdBy) {
+    public RecipeDto(Integer id, String name, String description, String createdBy) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -42,11 +42,11 @@ public class RecipeDto {
         this.description = description;
     }
 
-    public User getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(User createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 

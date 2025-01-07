@@ -3,8 +3,6 @@ package ide.eatit.service;
 import ide.eatit.model.Recipe;
 import ide.eatit.model.User;
 import ide.eatit.model.dto.RecipeDto;
-import ide.eatit.model.responses.BaseResponse;
-import ide.eatit.model.responses.recipe.RecipeResponse;
 import ide.eatit.repository.RecipeRepository;
 import ide.eatit.repository.UserRepository;
 import org.slf4j.Logger;
@@ -31,16 +29,13 @@ public class RecipeService {
         Recipe recipeEntity = new Recipe();
         recipeEntity.setName(recipe.getName());
         recipeEntity.setDescription(recipe.getDescription());
-//        Optional<User> createdBy = userRepository.findById(
-//                recipe.getCreatedBy());
-//
-//        if(createdBy.isEmpty()) return null;
-        recipeEntity.setCreatedBy(recipe.getCreatedBy());
+        var createdBy = userRepository.findById(UUID.fromString(recipe.getCreatedBy()));
+        createdBy.ifPresent(recipeEntity::setCreatedBy);
 
         return recipeRepository.save(recipeEntity);
     }
 
-    @Transactional(readOnly = true)
+    //@Transactional(readOnly = true)
     public List<Recipe> getAllRecipes() {
         var a = recipeRepository.findAll();
        return a;
