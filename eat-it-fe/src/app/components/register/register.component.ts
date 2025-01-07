@@ -43,10 +43,6 @@ export class RegisterComponent {
 
     return password === confirmPassword;
   }
-  navigateToLogin(){
-    this.router.navigate(["/login"]);
-    // snackbar
-  }
 
   async onSubmit() {
     if(!this.registerForm) return;
@@ -66,6 +62,7 @@ export class RegisterComponent {
     const { username, password, _ } = this.registerForm.value;
     try {
       const response = await this.authService.register(username, password);
+      
       if (response.hasFailed())
       {
         this.errorMessage = response.handleMessageByStatusCode();
@@ -73,7 +70,7 @@ export class RegisterComponent {
         return;
       }
 
-      this.snackbarService.showSnackbar(response.handleMessageByStatusCode());
+      this.snackbarService.showSnackbar("You can login now!");
       this.router.navigate(['/login']);
       return;
     } catch (error) {
@@ -81,7 +78,9 @@ export class RegisterComponent {
       this.snackbarService.showSnackbar(this.errorMessage);
     }
   }
-}
 
-// sa verific implementarea auth si register si login components + sa handle mesajele pt user folosind base-response.handle...
-// sa trec de login
+  navigateToLogin(){
+    this.router.navigate(["/login"]);
+    this.snackbarService.showSnackbar("To Login Page !");
+  }
+}

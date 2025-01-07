@@ -42,7 +42,8 @@ export class LoginComponent{
     if(!this.loginForm) return;
 
     if (this.loginForm.invalid) {
-      this.errorMessage = 'Please fill in the form correctly.';
+      this.errorMessage = 'Invalid username or password.';
+      this.snackbarService.showSnackbar(this.errorMessage);
       return;
     }
 
@@ -51,19 +52,26 @@ export class LoginComponent{
       const response = await this.authService.login(username, password);
       if (response.hasFailed())
         {
-          this.errorMessage = 'Please fill in the form correctly.';
+          this.errorMessage = response.handleMessageByStatusCode();
+
+          if(response.statusCode === '401'){
+            this.errorMessage = 'Invalid username or password';
+          }
+          this.snackbarService.showSnackbar(this.errorMessage);
           return;
         }
 
+        this.snackbarService.showSnackbar("To Home Page!");
         this.router.navigate(['/home']);
         return;
     } catch (error) {
-      this.errorMessage = 'Invalid username or password.';
+      this.errorMessage =  error instanceof Error ? error.message : 'An unexpected error occurred';
+      this.snackbarService.showSnackbar(this.errorMessage);
     }
   }
 
   navigateToRegister(){
     this.router.navigate(["/register"]);
-    // snackbar
+    this.snackbarService.showSnackbar("To Register Page !");
   }
 }

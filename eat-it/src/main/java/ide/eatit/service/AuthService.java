@@ -52,12 +52,18 @@ public class AuthService {
             Optional<User> optionalUser = Optional.ofNullable(userRepository.getByUsername(authRequest.getUsername()));
 
             if (optionalUser.isEmpty()) {
-                return new LoginResponse("500", "Invalid credentials. Bad username.", "FAILED. SERVER ERROR.");
+                return new LoginResponse("401", "Invalid credentials. Bad username.", "SUCCESS.");
+            }
+            if (authRequest.getUsername().length() <4 ) {
+                return new LoginResponse("400", "Username is too short", "SUCCESS.");
+            }
+            if (authRequest.getPassword().length() <4 ) {
+                return new LoginResponse("400", "Password is too short", "SUCCESS.");
             }
 
             User user = optionalUser.get();
             if (!hashPasswordWithSHA256(authRequest.getPassword()).equals(user.getPassword())){
-                return new LoginResponse("401", "Invalid credentials. Bad password.", "FAILED. SERVER ERROR.");
+                return new LoginResponse("401", "Invalid credentials. Bad password.", "SUCCESS.");
             }
 
 
@@ -76,7 +82,12 @@ public class AuthService {
         try {
             if (userRepository.existsByUsername(authRequest.getUsername())) {
                 return new BaseResponse("400", "Username is already taken", "SUCCESS.");
-
+            }
+            if (authRequest.getUsername().length() <4 ) {
+                return new BaseResponse("400", "Username is too short", "SUCCESS.");
+            }
+            if (authRequest.getPassword().length() <4 ) {
+                return new BaseResponse("400", "Password is too short", "SUCCESS.");
             }
 
             User newUser = new User();

@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { JwtService } from './jwt.service';
 import { environment} from '../environments/environment'
 import { LoginResponse } from '../models/dtos/login-response';
-import { RegisterResponse } from '../models/dtos/register-response';
 import { firstValueFrom } from 'rxjs';
+import { BaseResponse } from '../models/dtos/base-response';
 
 @Injectable({
   providedIn: 'root', 
@@ -17,28 +17,39 @@ export class AuthService {
   async login(username: string, password: string): Promise<LoginResponse>{
     const loginData = { username, password };
     const loginUrl = this.apiUrl + environment.loginUrl;
-    var httpResult = 
-        await this.http.post<LoginResponse>(loginUrl, loginData);
-    httpResult.subscribe(value => {this.jwtService.storeToken(value.token); console.log(value)});
-    var response = await firstValueFrom(httpResult);
-    if(!(response instanceof  LoginResponse)){
+    var httpResponse = await firstValueFrom(this.http.post<LoginResponse>(loginUrl, loginData));
+    var response: LoginResponse = new LoginResponse(httpResponse.statusCode, httpResponse.message, httpResponse.status, httpResponse.token || "");
+    if(!response || response.token ===  undefined){
       console.log("Login failed. Parsing error.")  
-       return LoginResponse.failedResponse("Login failed.");
+      return LoginResponse.failedResponse("Parsing error.");
     }
-
+    
+    if(response.hasFailed() && response.token === ""){
+      console.log("Login failed.")
+      return response;
+    }
+    
+    this.jwtService.storeToken(response.token);
     console.log("Login succeeded.")
     return response;
   }
 
-  async register(username: string, password: string): Promise<any>{
+  async register(username: string, password: string): Promise<BaseResponse>{
     const registerData = {username, password}
     const registerUrl = this.apiUrl + environment.registerUrl;
-    const response = await firstValueFrom(this.http.post<any>(registerUrl, registerData));
-    console.log(response);
-    if(!(response instanceof  RegisterResponse)){
+    const response = await firstValueFrom(this.http.post<BaseResponse>(registerUrl, registerData));
+
+    if(!(response instanceof BaseResponse)){
       console.log("Register failed. Parsing error.")  
-      return RegisterResponse.failedResponse("Registration failed.");
+      return BaseResponse.failedResponse("Parsing error.");
     }
+
+    if(response.hasFailed())
+    {
+      console.log("Register failed.")
+      return response;
+    }
+    
     console.log("Register succeeded.")
     return response;
   }
