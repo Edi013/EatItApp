@@ -9,7 +9,7 @@ public class RecipeDto {
 
     private String description;
 
-    private User createdBy;
+    private String createdBy;
 
     public RecipeDto(Integer id, String name, String description, User createdBy) {
         this.id = id;

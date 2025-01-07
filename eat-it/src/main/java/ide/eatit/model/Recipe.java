@@ -24,7 +24,7 @@ public class Recipe {
     private double estimatedCost = 0;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "createdBy", nullable = false)
+    @JoinColumn(name = "createdBy", referencedColumnName = "id", nullable = false)
     private User createdBy;
 
     public Integer getId() {

@@ -31,6 +31,10 @@ public class RecipeService {
         Recipe recipeEntity = new Recipe();
         recipeEntity.setName(recipe.getName());
         recipeEntity.setDescription(recipe.getDescription());
+//        Optional<User> createdBy = userRepository.findById(
+//                recipe.getCreatedBy());
+//
+//        if(createdBy.isEmpty()) return null;
         recipeEntity.setCreatedBy(recipe.getCreatedBy());
 
         return recipeRepository.save(recipeEntity);
@@ -38,7 +42,8 @@ public class RecipeService {
 
     @Transactional(readOnly = true)
     public List<Recipe> getAllRecipes() {
-       return recipeRepository.findAll();
+        var a = recipeRepository.findAll();
+       return a;
     }
 
     @Transactional(readOnly = true)

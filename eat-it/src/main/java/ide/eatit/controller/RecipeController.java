@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/recipe")
 public class RecipeController {
     @Autowired
     public RecipeService recipeService;
@@ -31,7 +31,7 @@ public class RecipeController {
         );
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     public GetAllResponse<RecipeDto> GetAllByOwner(@PathVariable String userId){
         var recipesDto = recipeService.getAllRecipesByOwner(userId)
                 .stream()
