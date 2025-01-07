@@ -21,18 +21,25 @@ export class AuthService {
         await this.http.post<LoginResponse>(loginUrl, loginData);
     httpResult.subscribe(value => {this.jwtService.storeToken(value.token); console.log(value)});
     var response = await firstValueFrom(httpResult);
-    if(!(response instanceof  LoginResponse)){ return LoginResponse.failedResponse("Login failed.");}
+    if(!(response instanceof  LoginResponse)){
+      console.log("Login failed. Parsing error.")  
+       return LoginResponse.failedResponse("Login failed.");
+    }
 
+    console.log("Login succeeded.")
     return response;
   }
 
-  async register(username: string, password: string): Promise<RegisterResponse>{
+  async register(username: string, password: string): Promise<any>{
     const registerData = {username, password}
     const registerUrl = this.apiUrl + environment.registerUrl;
     const response = await firstValueFrom(this.http.post<any>(registerUrl, registerData));
     console.log(response);
-    if(!(response instanceof  RegisterResponse)){ return RegisterResponse.failedResponse("Registration failed.");}
-
+    if(!(response instanceof  RegisterResponse)){
+      console.log("Register failed. Parsing error.")  
+      return RegisterResponse.failedResponse("Registration failed.");
+    }
+    console.log("Register succeeded.")
     return response;
   }
 

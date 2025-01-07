@@ -1,4 +1,4 @@
-<div class="register-container">
+<div class="form-container">
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
         <h1>Register</h1>
 
@@ -30,13 +30,13 @@
             <mat-error *ngIf="registerForm.get('confirmPassword')?.hasError('required')">
                 Confirm password is required.
             </mat-error>
-            <mat-error *ngIf="registerForm.get('confirmPassword')?.hasError('passwordMismatch')">
-                Passwords do not match.
-            </mat-error>
         </mat-form-field>
 
         <button mat-raised-button color="primary" [disabled]="registerForm.invalid">
             Register
         </button>
     </form>
+    <div class="form-container-link">
+        <span class="link" (click)="navigateToLogin()">Already have an account? Login here</span>
+    </div>
 </div>

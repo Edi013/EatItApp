@@ -1,4 +1,4 @@
-<div class="login-container">
+<div class="form-container">
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
         <h1>Login</h1>
 
@@ -28,4 +28,8 @@
         Login
         </button>
     </form>
+    <div class="form-container-link">
+        <span class="link" (click)="navigateToRegister()">Don't have an account? Register here</span>
+    </div>
+
 </div>

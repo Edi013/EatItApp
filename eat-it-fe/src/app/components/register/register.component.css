@@ -1,18 +1,3 @@
-.register-container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    background: #ffffff;
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #3f51b5;
-}
-
 .register-form {
     display: flex;
     flex-direction: column;
@@ -26,3 +11,4 @@ mat-form-field {
 button {
     width: 100%;
 }
+

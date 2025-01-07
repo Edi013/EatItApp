@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { SnackbarService } from '../../services/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +30,7 @@ export class LoginComponent{
      private formBuilder: FormBuilder,
      private authService: AuthService,
      private router: Router,
+     private snackbarService: SnackbarService
   ) {
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(4)]], 
@@ -45,14 +47,23 @@ export class LoginComponent{
     }
 
     const { username, password } = this.loginForm.value;
-
     try {
       const response = await this.authService.login(username, password);
-      if (response.hasFailed()) {
+      if (response.hasFailed())
+        {
+          this.errorMessage = 'Please fill in the form correctly.';
+          return;
+        }
+
         this.router.navigate(['/home']);
-      }
+        return;
     } catch (error) {
       this.errorMessage = 'Invalid username or password.';
     }
+  }
+
+  navigateToRegister(){
+    this.router.navigate(["/register"]);
+    // snackbar
   }
 }

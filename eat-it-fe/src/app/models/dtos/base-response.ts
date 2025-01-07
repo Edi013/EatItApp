@@ -19,7 +19,7 @@ export class BaseResponse {
     }
 
 
-    handleMessageByStatusCode() {
+    handleMessageByStatusCode(): string {
       const regex2xx = /^2\d{1}/;  
       const regex4xx = /^4\d{1}/;  
       const regex5xx = /^5\d{1}/;  
