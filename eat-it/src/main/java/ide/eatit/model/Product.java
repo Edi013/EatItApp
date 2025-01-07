@@ -1,5 +1,6 @@
 package ide.eatit.model;
 
+import ide.eatit.model.dto.ProductDto;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -43,4 +44,7 @@ public class Product {
         this.value = value;
     }
 
+    public ProductDto toDto() {
+        return new ProductDto(this.id, this.name, this.value);
+    }
 }

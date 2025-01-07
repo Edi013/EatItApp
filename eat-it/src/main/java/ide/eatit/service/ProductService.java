@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,11 +40,11 @@ public class ProductService {
     }
 
     @Transactional
-    public Product updateProduct(Integer id, Product productDetails) {
+    public Product updateProduct(Integer id, ProductDto productDetails) {
         Optional<Product> existingProductOptional = productRepository.findById(id);
         if (existingProductOptional.isEmpty()) {
             logger.error("Product not found while updating, id {}", id);
-            throw new RuntimeException("Product not found with id: " + id);
+            return null;
         }
         Product existingProduct = existingProductOptional.get();
         existingProduct.setName(productDetails.getName());
@@ -53,12 +54,14 @@ public class ProductService {
     }
 
     @Transactional
-    public void deleteProduct(Integer id) {
+    public boolean deleteProduct(Integer id) {
         Optional<Product> existingProductOptional = productRepository.findById(id);
         if (existingProductOptional.isEmpty()) {
             logger.error("Product not found while deleting, id {}", id);
-            throw new RuntimeException("Product not found with id: " + id);
+            return false;
         }
+
         productRepository.deleteById(id);
+        return true;
     }
 }

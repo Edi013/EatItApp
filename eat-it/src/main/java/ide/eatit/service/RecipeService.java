@@ -3,6 +3,8 @@ package ide.eatit.service;
 import ide.eatit.model.Recipe;
 import ide.eatit.model.User;
 import ide.eatit.model.dto.RecipeDto;
+import ide.eatit.model.responses.BaseResponse;
+import ide.eatit.model.responses.recipe.RecipeResponse;
 import ide.eatit.repository.RecipeRepository;
 import ide.eatit.repository.UserRepository;
 import org.slf4j.Logger;
@@ -11,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class RecipeService {
@@ -38,7 +38,7 @@ public class RecipeService {
 
     @Transactional(readOnly = true)
     public List<Recipe> getAllRecipes() {
-        return recipeRepository.findAll();
+       return recipeRepository.findAll();
     }
 
     @Transactional(readOnly = true)
@@ -57,28 +57,28 @@ public class RecipeService {
     }
 
     @Transactional
-    public Recipe updateRecipe(Integer id, Recipe recipeDetails) {
+    public Recipe updateRecipe(Integer id, RecipeDto recipeDetails) {
         Optional<Recipe> existingRecipeOptional = recipeRepository.findById(id);
-        if (existingRecipeOptional.isPresent()) {
-            Recipe existingRecipe = existingRecipeOptional.get();
-            existingRecipe.setName(recipeDetails.getName());
-            existingRecipe.setDescription(recipeDetails.getDescription());
-
-            return recipeRepository.save(existingRecipe);
-        } else {
+        if (existingRecipeOptional.isEmpty()) {
             logger.error("Recipe not found while updating, id {}", id);
-            throw new RuntimeException("Recipe not found with id: " + id);
+            return null;
         }
+
+        Recipe existingRecipe = existingRecipeOptional.get();
+        existingRecipe.setName(recipeDetails.getName());
+        existingRecipe.setDescription(recipeDetails.getDescription());
+        return recipeRepository.save(existingRecipe);
     }
 
     @Transactional
-    public void deleteRecipe(Integer id) {
+    public boolean deleteRecipe(Integer id) {
         Optional<Recipe> existingRecipeOptional = recipeRepository.findById(id);
         if (existingRecipeOptional.isPresent()) {
             recipeRepository.deleteById(id);
+            return true;
         } else {
             logger.error("Recipe not found while deleting, id {}", id);
-            throw new RuntimeException("Recipe not found with id: " + id);
+            return false;
         }
     }
 }

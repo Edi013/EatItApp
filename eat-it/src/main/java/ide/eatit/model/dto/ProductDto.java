@@ -1,7 +1,5 @@
 package ide.eatit.model.dto;
 
-import java.math.BigDecimal;
-
 public class ProductDto {
     private Integer id;
 
@@ -9,6 +7,12 @@ public class ProductDto {
 
     //Value per 100g
     private double value;
+
+    public ProductDto(Integer id, String name, double value) {
+        this.id = id;
+        this.name = name;
+        this.value = value;
+    }
 
     public Integer getId() {
         return id;

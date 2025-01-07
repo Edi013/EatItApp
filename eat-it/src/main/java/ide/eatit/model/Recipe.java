@@ -1,5 +1,6 @@
 package ide.eatit.model;
 
+import ide.eatit.model.dto.RecipeDto;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -66,4 +67,12 @@ public class Recipe {
         this.createdBy = createdBy;
     }
 
+    public RecipeDto toDto() {
+        return new RecipeDto(
+                this.id,
+                this.name,
+                this.description,
+                this.createdBy
+        );
+    }
 }

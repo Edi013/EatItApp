@@ -11,6 +11,13 @@ public class RecipeDto {
 
     private User createdBy;
 
+    public RecipeDto(Integer id, String name, String description, User createdBy) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.createdBy = createdBy;
+    }
+
     public Integer getId() {
         return id;
     }
