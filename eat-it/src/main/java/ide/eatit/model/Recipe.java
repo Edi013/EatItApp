@@ -20,11 +20,11 @@ public class Recipe {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "estimatedCost")
+    @Column(name = "estimated_cost")
     private double estimatedCost = 0;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "createdBy", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "created_by", referencedColumnName = "id", nullable = false)
     private User createdBy;
 
     public Integer getId() {

@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 public class User {
     @Id
     @Column(name = "id", nullable = false, length = 36)
-    private String id;
+    private UUID id;
 
     @Column(name = "username", nullable = false, length = 50)
     private String username;
