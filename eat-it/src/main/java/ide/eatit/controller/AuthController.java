@@ -1,6 +1,8 @@
 package ide.eatit.controller;
 
 import ide.eatit.model.dto.AuthRequest;
+import ide.eatit.model.responses.BaseResponse;
+import ide.eatit.model.responses.LoginResponse;
 import ide.eatit.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +15,13 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
+    public LoginResponse login(@RequestBody AuthRequest authRequest) {
        return authService.login(authRequest);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody AuthRequest authRequest) {
-        return authService.register(authRequest);
+    public BaseResponse register(@RequestBody AuthRequest authRequest) {
+        var a = authService.register(authRequest);
+        return a;
     }
 }
