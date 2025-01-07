@@ -6,8 +6,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import ide.eatit.model.responses.BaseResponse;
 import ide.eatit.model.User;
 import ide.eatit.model.dto.AuthRequest;
+import ide.eatit.model.responses.LoginResponse;
 import ide.eatit.repository.UserRepository;
 import ide.eatit.security.JwtUtil;
 import org.slf4j.Logger;
@@ -45,38 +47,36 @@ public class AuthService {
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<?> login(AuthRequest authRequest) {
+    public LoginResponse login(AuthRequest authRequest) {
         try {
             Optional<User> optionalUser = Optional.ofNullable(userRepository.getByUsername(authRequest.getUsername()));
 
             if (optionalUser.isEmpty()) {
-                return ResponseEntity.status(401).body("Invalid credentials. Bad username.");
+                return new LoginResponse("500", "Invalid credentials. Bad username.", "FAILED. SERVER ERROR.");
             }
 
             User user = optionalUser.get();
-            if (!hashPasswordWithSHA256(authRequest.getPassword()).equals(user.getPassword()))
-                return ResponseEntity.status(401).body("Invalid credentials. Bad password.");
+            if (!hashPasswordWithSHA256(authRequest.getPassword()).equals(user.getPassword())){
+                return new LoginResponse("401", "Invalid credentials. Bad password.", "FAILED. SERVER ERROR.");
+            }
+
 
             String token = JwtUtil.generateToken(user.getUsername());
 
             logger.info("Login successful for user with name and id {} - {}", user.getUsername(), user.getId());
-            return ResponseEntity.status(200).body(Map.of(
-                    "status", "OK",
-                    "statusCode", "200",
-                    "message", "Login successful!",
-                    "token", token
-            ));
+            return new LoginResponse("200", "Login succeeded. ",  "SUCCESS.", token);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return ResponseEntity.status(500).body("An error occurred during login: " + e.getMessage());
+            return new LoginResponse("500", "Login failed. "+e.getMessage(), "FAILED. SERVER ERROR.");
         }
     }
 
     @Transactional()
-    public ResponseEntity<?> register(AuthRequest authRequest) {
+    public BaseResponse register(AuthRequest authRequest) {
         try {
             if (userRepository.existsByUsername(authRequest.getUsername())) {
-                return ResponseEntity.status(400).body("Username is already taken.");
+                return new BaseResponse("400", "Username is already taken", "SUCCESS.");
+
             }
 
             User newUser = new User();
@@ -88,10 +88,10 @@ public class AuthService {
             userRepository.flush();
 
             logger.info("Register successful for user with name and id {} - {}", newUser.getUsername(), newUser.getId());
-            return ResponseEntity.status(201).body("User registered successfully!");
+            return new BaseResponse("201", "User registered.", "SUCCESS");
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return ResponseEntity.status(500).body("An error occurred during registration: " + e.getMessage());
+            return new BaseResponse("500", "User not registered. "+e.getMessage(), "FAILED. SERVER ERROR.");
         }
     }
 }
