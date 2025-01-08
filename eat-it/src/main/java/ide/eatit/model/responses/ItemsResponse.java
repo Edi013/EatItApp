@@ -2,11 +2,11 @@ package ide.eatit.model.responses;
 
 import java.util.List;
 
-public class GetAllResponse<T> extends BaseResponse {
+public class ItemsResponse<T> extends BaseResponse {
 
     private List<T> items;
 
-    public GetAllResponse(String statusCode, String message, String status, List<T> items) {
+    public ItemsResponse(String statusCode, String message, String status, List<T> items) {
         super(statusCode, message, status);
         this.items = items;
     }

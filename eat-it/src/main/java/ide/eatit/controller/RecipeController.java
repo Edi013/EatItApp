@@ -3,8 +3,8 @@ package ide.eatit.controller;
 import ide.eatit.model.Recipe;
 import ide.eatit.model.dto.RecipeDto;
 import ide.eatit.model.responses.BaseResponse;
-import ide.eatit.model.responses.GetAllResponse;
-import ide.eatit.model.responses.GetResponse;
+import ide.eatit.model.responses.ItemsResponse;
+import ide.eatit.model.responses.ItemResponse;
 import ide.eatit.model.responses.recipe.RecipeResponse;
 import ide.eatit.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +17,13 @@ public class RecipeController {
     public RecipeService recipeService;
 
     @GetMapping
-    public GetAllResponse<RecipeDto> GetAll(){
+    public ItemsResponse<RecipeDto> GetAll(){
         var recipesDto = recipeService.getAllRecipes()
                 .stream()
                 .map(Recipe::toDto)
                 .toList();
 
-        return new GetAllResponse<RecipeDto>(
+        return new ItemsResponse<RecipeDto>(
                 "200",
                 "Recipe retrieved successfully.",
                 "SUCCESS",
@@ -32,13 +32,13 @@ public class RecipeController {
     }
 
     @GetMapping("/user/{userId}")
-    public GetAllResponse<RecipeDto> GetAllByOwner(@PathVariable String userId){
+    public ItemsResponse<RecipeDto> GetAllByOwner(@PathVariable String userId){
         var recipesDto = recipeService.getAllRecipesByOwner(userId)
                 .stream()
                 .map(Recipe::toDto)
                 .toList();
 
-        return new GetAllResponse<RecipeDto>(
+        return new ItemsResponse<RecipeDto>(
                 "200",
                 "Recipe retrieved successfully.",
                 "SUCCESS",
@@ -56,7 +56,7 @@ public class RecipeController {
                 return new BaseResponse("404", "Recipe not found.", "FAILED");
             }
 
-            return new GetResponse<RecipeDto>("200", "Recipe found.", "SUCCESS", result.get().toDto());
+            return new ItemResponse<RecipeDto>("200", "Recipe found.", "SUCCESS", result.get().toDto());
         }catch (NumberFormatException e){
             return new BaseResponse("400", "Recipe not found.", "FAILED");
         }

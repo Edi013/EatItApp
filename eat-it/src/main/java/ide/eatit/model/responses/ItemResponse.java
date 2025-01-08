@@ -1,12 +1,10 @@
 package ide.eatit.model.responses;
 
-import java.util.List;
-
-public class GetResponse<T> extends BaseResponse {
+public class ItemResponse<T> extends BaseResponse {
 
     private T item;
 
-    public GetResponse(String statusCode, String message, String status, T item) {
+    public ItemResponse(String statusCode, String message, String status, T item) {
         super(statusCode, message, status);
         this.item = item;
     }

@@ -16,6 +16,6 @@ public interface RecipeProductRepository extends JpaRepository<RecipeProduct, In
             "JOIN rp.product p " +
             "WHERE rp.recipe.id = :recipeId " +
             "GROUP BY rp.recipe.id")
-    List<EstimatedCostDto> findEstimatedCostByRecipeId(@Param("recipeId") Integer recipeId);
-
+    EstimatedCostDto findEstimatedCostByRecipeId(@Param("recipeId") Integer recipeId);
 }
+// sa repar query ul, da null

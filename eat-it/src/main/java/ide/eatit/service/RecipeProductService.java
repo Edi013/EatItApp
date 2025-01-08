@@ -3,6 +3,7 @@ package ide.eatit.service;
 import ide.eatit.model.Product;
 import ide.eatit.model.Recipe;
 import ide.eatit.model.RecipeProduct;
+import ide.eatit.model.dto.EstimatedCostDto;
 import ide.eatit.repository.ProductRepository;
 import ide.eatit.repository.RecipeProductRepository;
 import ide.eatit.repository.RecipeRepository;
@@ -28,7 +29,7 @@ public class RecipeProductService {
 
     private static final Logger logger = LoggerFactory.getLogger(RecipeProductService.class);
 
-    @Transactional()
+    @Transactional
     List<RecipeProduct> addProductsToRecipe(Integer recipeId, List<Integer> productsIds, List<Integer> productsQuantities){
         List<RecipeProduct> result = new ArrayList<>();
         Recipe recipe = getRecipeById(recipeId);
@@ -37,7 +38,6 @@ public class RecipeProductService {
             Integer productId = productsIds.get(i);
             Integer productQuantity = productsQuantities.get(i);
 
-            // You can now use productId and productQuantity for each iteration
             result.add(createProductRecipe(getProductById(productId), recipe, productQuantity));
         }
         return result;
@@ -46,6 +46,14 @@ public class RecipeProductService {
     @Transactional
     public RecipeProduct addProductToRecipe(Integer recipeId, Integer productId, Integer productQuantity) {
         return createProductRecipe(getProductById(productId), getRecipeById(recipeId), productQuantity);
+    }
+
+    @Transactional(readOnly = true)
+    public EstimatedCostDto findEstimatedCostByRecipeId(Integer recipeId) {
+        var recipe = recipeRepository.findById(recipeId);
+        if(recipe.isEmpty()){return null;}
+        var result = recipeProductRepository.findEstimatedCostByRecipeId(recipeId);
+        return result;
     }
 
     private RecipeProduct createProductRecipe(Product product, Recipe recipe, Integer productQuantity) {

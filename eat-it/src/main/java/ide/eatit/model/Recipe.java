@@ -72,7 +72,7 @@ public class Recipe {
                 this.id,
                 this.name,
                 this.description,
-                this.createdBy.toString()
+                this.createdBy.getId()
         );
     }
 }

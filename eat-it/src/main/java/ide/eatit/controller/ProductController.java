@@ -3,8 +3,8 @@ package ide.eatit.controller;
 import ide.eatit.model.Product;
 import ide.eatit.model.dto.ProductDto;
 import ide.eatit.model.responses.BaseResponse;
-import ide.eatit.model.responses.GetAllResponse;
-import ide.eatit.model.responses.GetResponse;
+import ide.eatit.model.responses.ItemsResponse;
+import ide.eatit.model.responses.ItemResponse;
 import ide.eatit.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +20,13 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public GetAllResponse<ProductDto> getAll() {
+    public ItemsResponse<ProductDto> getAll() {
         List<ProductDto> productsDto = productService.getAllProducts()
                 .stream()
                 .map(Product::toDto)
                 .toList();
 
-        return new GetAllResponse<ProductDto>(
+        return new ItemsResponse<ProductDto>(
                 "200",
                 "Products retrieved successfully.",
                 "SUCCESS",
@@ -44,7 +44,7 @@ public class ProductController {
                 return new BaseResponse("404", "Product not found.", "FAILED");
             }
 
-            return new GetResponse<ProductDto>("200", "Product found.", "SUCCESS", result.get().toDto());
+            return new ItemResponse<ProductDto>("200", "Product found.", "SUCCESS", result.get().toDto());
 
         } catch (NumberFormatException e) {
             return new BaseResponse("400", "Invalid product ID.", "FAILED");
@@ -57,7 +57,7 @@ public class ProductController {
         if (insertedProduct == null) {
             return new BaseResponse("500", "Failed to insert product.", "FAILED");
         }
-        return new GetResponse<ProductDto>("200", "Product inserted.", "SUCCESS", insertedProduct.toDto());
+        return new ItemResponse<ProductDto>("200", "Product inserted.", "SUCCESS", insertedProduct.toDto());
     }
 
     @PutMapping("/{id}")
@@ -67,7 +67,7 @@ public class ProductController {
             return new BaseResponse("400", String.format("Product not found with id: %d", id), "FAILED");
         }
 
-        return new GetResponse<ProductDto>("200", "Product updated.", "SUCCESS", result.toDto());
+        return new ItemResponse<ProductDto>("200", "Product updated.", "SUCCESS", result.toDto());
     }
 
     @DeleteMapping("/{id}")
