@@ -9,10 +9,10 @@ import java.util.List;
 
 public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
    // List<Recipe> findByCreatedBy(User createdBy);
-   @Query("SELECT r FROM Recipe r WHERE r.createdBy = :createdBy")
+   //@Query("SELECT r FROM Recipe r WHERE r.createdBy = :createdBy")
    List<Recipe> findByCreatedBy(User createdBy);
 
-    @Override
-    @Query("SELECT r FROM Recipe r")
-    List<Recipe> findAll();
+//    @Override
+//    @Query("SELECT r FROM Recipe r")
+//    List<Recipe> findAll();
 }

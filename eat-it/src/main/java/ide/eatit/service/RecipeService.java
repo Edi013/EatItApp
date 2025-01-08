@@ -25,25 +25,28 @@ public class RecipeService {
     private static final Logger logger = LoggerFactory.getLogger(RecipeService.class);
 
     @Transactional
-    public Recipe createRecipe(RecipeDto recipe) {
+    public RecipeDto createRecipe(RecipeDto recipe) {
         Recipe recipeEntity = new Recipe();
         recipeEntity.setName(recipe.getName());
         recipeEntity.setDescription(recipe.getDescription());
-        var createdBy = userRepository.findById(UUID.fromString(recipe.getCreatedBy()));
-        createdBy.ifPresent(recipeEntity::setCreatedBy);
+        var user = userRepository.findById(recipe.getCreatedBy());
 
-        return recipeRepository.save(recipeEntity);
+        if(user.isPresent()){
+        var createdBy = userRepository.findById(user.get().getId());
+            createdBy.ifPresent(recipeEntity::setCreatedBy);
+        }
+        var addedEntity = recipeRepository.save(recipeEntity);
+        return new RecipeDto(addedEntity.getId(), addedEntity.getName(), addedEntity.getDescription(), addedEntity.getCreatedBy().getId());
     }
 
-    //@Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public List<Recipe> getAllRecipes() {
-        var a = recipeRepository.findAll();
-       return a;
+        return recipeRepository.findAll();
     }
 
     @Transactional(readOnly = true)
     public List<Recipe> getAllRecipesByOwner(String userId) {
-        Optional<User> userOptional = userRepository.findById(UUID.fromString(userId));
+        Optional<User> userOptional = userRepository.findById(userId);
         if(userOptional.isPresent()) {
             return recipeRepository.findByCreatedBy(userOptional.get());
         }

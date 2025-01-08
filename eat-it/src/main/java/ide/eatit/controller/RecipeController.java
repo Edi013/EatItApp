@@ -64,11 +64,11 @@ public class RecipeController {
 
     @PostMapping
     public BaseResponse insertRecipe(@RequestBody RecipeDto recipeDto) {
-        Recipe insertedRecipe = recipeService.createRecipe(recipeDto);
+        RecipeDto insertedRecipe = recipeService.createRecipe(recipeDto);
         if (insertedRecipe == null) {
             return new BaseResponse("500", "Failed to insert recipe.", "FAILED");
         }
-        return new RecipeResponse("200", "Recipe inserted.", "SUCCESS", insertedRecipe.toDto());
+        return new RecipeResponse("200", "Recipe inserted.", "SUCCESS", insertedRecipe);
     }
 
     @PutMapping("/{id}")

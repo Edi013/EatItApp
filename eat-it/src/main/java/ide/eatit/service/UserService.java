@@ -22,7 +22,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<User> getUserById(UUID id) {
+    public Optional<User> getUserById(String id) {
         return userRepository.findById(id);
     }
 
@@ -32,7 +32,7 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(UUID id) {
+    public void deleteUser(String id) {
         userRepository.deleteById(id);
     }
 }

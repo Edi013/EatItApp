@@ -5,12 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "users")
 public class User {
     @Id
     @Column(name = "id", nullable = false, length = 36)
-    private UUID id;
+    private String id;
 
     @Column(name = "username", nullable = false, length = 50)
     private String username;
