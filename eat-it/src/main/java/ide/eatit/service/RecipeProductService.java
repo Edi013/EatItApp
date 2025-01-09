@@ -3,6 +3,7 @@ package ide.eatit.service;
 import ide.eatit.model.Product;
 import ide.eatit.model.Recipe;
 import ide.eatit.model.RecipeProduct;
+import ide.eatit.model.RecipeProductId;
 import ide.eatit.model.dto.EstimatedCostDto;
 import ide.eatit.model.dto.ExtendedProductDto;
 import ide.eatit.repository.ProductRepository;
@@ -60,7 +61,12 @@ public class RecipeProductService {
     }
 
     private RecipeProduct createProductRecipe(Product product, Recipe recipe, Integer productQuantity) {
+        RecipeProductId recipeProductId = new RecipeProductId();
+        recipeProductId.setRecipeId(recipe.getId());
+        recipeProductId.setProductId(product.getId());
+
         RecipeProduct recipeProducts = new RecipeProduct();
+        recipeProducts.setId(recipeProductId);
         recipeProducts.setProduct(product);
         recipeProducts.setRecipe(recipe);
         recipeProducts.setQuantity(productQuantity);
