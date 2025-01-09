@@ -4,5 +4,8 @@ export const environment = {
     authBaseUrl: '/auth',
     loginUrl: '/login',
     registerUrl: '/register',
+    recipeDetailsUrl: '/recipe-details',
+    recipeUrl: '/recipe',
+    productUrl: '/product',
   };
   

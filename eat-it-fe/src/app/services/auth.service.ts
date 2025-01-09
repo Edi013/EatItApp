@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { JwtService } from './jwt.service';
 import { environment} from '../environments/environment'
-import { LoginResponse } from '../models/dtos/login-response';
+import { LoginResponse } from '../models/responses/login-response';
 import { firstValueFrom } from 'rxjs';
-import { BaseResponse } from '../models/dtos/base-response';
+import { BaseResponse } from '../models/responses/base-response';
+import { JwtService } from './utils/jwt.service';
 
 @Injectable({
   providedIn: 'root', 
