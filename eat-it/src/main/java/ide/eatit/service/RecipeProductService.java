@@ -4,6 +4,7 @@ import ide.eatit.model.Product;
 import ide.eatit.model.Recipe;
 import ide.eatit.model.RecipeProduct;
 import ide.eatit.model.dto.EstimatedCostDto;
+import ide.eatit.model.dto.ExtendedProductDto;
 import ide.eatit.repository.ProductRepository;
 import ide.eatit.repository.RecipeProductRepository;
 import ide.eatit.repository.RecipeRepository;
@@ -52,8 +53,10 @@ public class RecipeProductService {
     public EstimatedCostDto findEstimatedCostByRecipeId(Integer recipeId) {
         var recipe = recipeRepository.findById(recipeId);
         if(recipe.isEmpty()){return null;}
+
         var result = recipeProductRepository.findEstimatedCostByRecipeId(recipeId);
-        return result;
+        if(result == null) {return new EstimatedCostDto(recipeId, 0.0);}
+        return result ;
     }
 
     private RecipeProduct createProductRecipe(Product product, Recipe recipe, Integer productQuantity) {
@@ -79,5 +82,18 @@ public class RecipeProductService {
                     logger.error("Adding products to a recipe, but recipe not found.");
                     return new RuntimeException("Recipe not found");
                 });
+    }
+
+    public List<ExtendedProductDto> getProductsForRecipeById(Integer recipeId){
+        if(recipeRepository.findById(recipeId).isEmpty()){return null;}
+
+        List<RecipeProduct> result = recipeProductRepository.findAllByRecipeId(recipeId);
+        List<ExtendedProductDto> products = new ArrayList<>();
+        for(RecipeProduct entry : result){
+            var product = entry.getProduct();
+            products.add(new ExtendedProductDto(product.getId(), product.getName(), product.getValue(), entry.getQuantity()));
+        }
+
+        return products;
     }
 }

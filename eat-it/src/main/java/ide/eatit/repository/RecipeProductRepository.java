@@ -11,11 +11,23 @@ import java.util.List;
 public interface RecipeProductRepository extends JpaRepository<RecipeProduct, Integer> {
     List<RecipeProduct> findByRecipeId(Integer recipeId);
 
-    @Query("SELECT new ide.eatit.model.dto.EstimatedCostDto(rp.recipe.id, SUM(CAST(rp.quantity * p.value AS DOUBLE))) " +
+//    @Query("SELECT new ide.eatit.model.dto.EstimatedCostDto(rp.recipe.id, SUM(CAST(rp.quantity * p.value AS DOUBLE))) " +
+//            "FROM RecipeProduct rp " +
+//            "JOIN rp.product p " +
+//            "WHERE rp.recipe.id = :recipeId " +
+//            "GROUP BY rp.recipe.id")
+//    List<EstimatedCostDto> findEstimatedCostByRecipeId(@Param("recipeId") Integer recipeId);
+
+    @Query("SELECT new ide.eatit.model.dto.EstimatedCostDto(rp.recipe.id, SUM(CAST((rp.quantity / 100) * p.value AS DOUBLE))) " +
             "FROM RecipeProduct rp " +
             "JOIN rp.product p " +
-            "WHERE rp.recipe.id = :recipeId " +
+            "WHERE rp.id.recipeId = :recipeId " +  
             "GROUP BY rp.recipe.id")
     EstimatedCostDto findEstimatedCostByRecipeId(@Param("recipeId") Integer recipeId);
+
+
+
+    @Query("SELECT rp FROM RecipeProduct rp WHERE rp.recipe.id = :recipeId")
+    List<RecipeProduct> findAllByRecipeId(@Param("recipeId") Integer recipeId);
 }
 // sa repar query ul, da null

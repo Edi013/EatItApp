@@ -7,33 +7,30 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Table(name = "recipe_products")
 public class RecipeProduct {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
+
+    @EmbeddedId
+    private RecipeProductId id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @MapsId("recipeId")
     @JoinColumn(name = "recipe_id", nullable = false)
     private Recipe recipe;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @MapsId("productId")
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @Column(name="quantity", nullable = false)
     private Integer quantity = 0;
 
-    public void setQuantity(Integer quantity) {this.quantity = quantity; }
-
-    public Integer getQuantity() {return quantity;}
-
-    public Integer getId() {
+    public RecipeProductId getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(RecipeProductId id) {
         this.id = id;
     }
 
@@ -53,4 +50,11 @@ public class RecipeProduct {
         this.product = product;
     }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 }
