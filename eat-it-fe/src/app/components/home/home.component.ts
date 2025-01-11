@@ -21,9 +21,10 @@ export class HomeComponent {
       const response = await this.recipeService.getAllRecipes();
       if (response.hasFailed()) {
         this.errorMessage = 'Failed to fetch recipes';
-      } else {
-        this.recipes = (response as ItemsResponse<RecipeDto>).items ?? [];
       }
+
+      this.recipes = response.items;
+      
     } catch (error: unknown) {
       if (error instanceof Error) {
         this.errorMessage = 'Error fetching recipes: ' + error.message;

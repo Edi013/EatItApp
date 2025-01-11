@@ -15,16 +15,15 @@ export class RecipeService {
 
   constructor(private http: HttpService) {}
 
-  async getAllRecipes(): Promise<BaseResponse> {
-    var response = await lastValueFrom(this.http.get<any>(this.recipeUrl));
-    var responseParsed = response as ItemsResponse<RecipeDto>;
-    //if(!(response instanceof ItemsResponse) && !(response instanceof BaseResponse)){
-     if(responseParsed.hasFailed()){ 
-        console.log("getAllRecipes failed. Parsing error.")  
-      return ItemsResponse.failedResponse("Parsing error.");
+  async getAllRecipes(): Promise<ItemsResponse<RecipeDto>> {
+    var response = await lastValueFrom(this.http.get<ItemsResponse<RecipeDto>>(this.recipeUrl));
+    var responseParsed = new ItemsResponse<RecipeDto>(response.statusCode, response.message, response.status, response.items ?? []);
+    if(!responseParsed){
+      console.log("getAllRecipes failed. Parsing error.")  
+      return ItemsResponse.failedResponse<RecipeDto>("Parsing error.");
     }
-
-    return response;
+    
+    return responseParsed;
   }
 
   // async getRecipesByOwner(userId: string): Promise<BaseResponse> {

@@ -8,7 +8,7 @@ export class ItemsResponse<T> extends BaseResponse {
     this.items = items;
   }
 
-  static override failedResponse(message: string = ""): BaseResponse {
-    return new BaseResponse('500', "BE response was unexpected." + message, 'FAILED');
+  static override  failedResponse<Z>(message: string = "", statusCode: string = ""): ItemsResponse<Z> {
+    return new ItemsResponse<Z>(statusCode, "BE response was unexpected." + message, 'FAILED', []);
   }
 }
