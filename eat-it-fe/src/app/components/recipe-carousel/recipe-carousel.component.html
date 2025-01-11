@@ -1,0 +1,24 @@
+<div class="carousel-container">
+  <!-- Left Arrow -->
+  <button mat-icon-button (click)="previousRecipe()" [disabled]="currentIndex === 0">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <!-- Recipe Card -->
+  <mat-card class="recipe-card" *ngIf="recipes.length > 0">
+    <mat-card-header>
+      <mat-card-title>{{ recipes[currentIndex].name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ recipes[currentIndex].description }}</p>
+    </mat-card-content>
+    <mat-card-footer>
+      <small>Created By: {{ recipes[currentIndex].createdBy }}</small>
+    </mat-card-footer>
+  </mat-card>
+
+  <!-- Right Arrow -->
+  <button mat-icon-button (click)="nextRecipe()" [disabled]="currentIndex === recipes.length - 1">
+    <mat-icon>arrow_forward</mat-icon>
+  </button>
+</div>

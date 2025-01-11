@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import Cookies from 'js-cookie';
-import { LoginResponse } from '../models/responses/login-response';
 
 @Injectable({
     providedIn: 'root', 

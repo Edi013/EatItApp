@@ -1,30 +1,28 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../environments/environment";
+import { HttpClient } from "@angular/common/http";
+import { BaseResponse } from "../../models/responses/base-response";
+import { Observable } from "rxjs";
 
 @Injectable({
     providedIn: 'root', 
   })
 export class HttpService {
     private baseUrl: string;
+    private http: HttpClient;
 
-    constructor() {
+    constructor(private httpClient: HttpClient) {
         this.baseUrl = environment.baseUrl;
+        this.http = httpClient;
     }
 
-    async get<T>(url: string): Promise<T> {
-        const response = await fetch(`${this.baseUrl}${url}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+    get<T extends BaseResponse>(url: string): Observable<T> {
+        var exportUrl = this.baseUrl+url;
+        const response = this.http.get<T>(exportUrl);
 
-        if (!response.ok) {
-            throw new Error(`GET request failed: ${response.statusText}`);
-        }
-
-        return response.json();
+        return response;
     }
+    
 
     async post<T>(url: string, data: object): Promise<T> {
         const response = await fetch(`${this.baseUrl}${url}`, {

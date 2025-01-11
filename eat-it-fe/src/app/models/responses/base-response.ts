@@ -5,8 +5,8 @@ export class BaseResponse {
       public status: string
     ) {}
   
-    static failedResponse(message: string = ""): BaseResponse {
-      return new this('500', "BE response was unexpected." + message, 'FAILED');
+    static failedResponse(message: string = "", statusCode: string = ""): BaseResponse {
+      return new this(statusCode, "BE response was unexpected." + message, 'FAILED');
     }
 
     hasFailed(): boolean{
