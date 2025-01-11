@@ -18,7 +18,13 @@ export class HttpService {
 
     get<T extends BaseResponse>(url: string): Observable<T> {
         var exportUrl = this.baseUrl+url;
-        const response = this.http.get<T>(exportUrl);
+        const response = this.http.get<T>(exportUrl, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+            }
+        });
 
         return response;
     }

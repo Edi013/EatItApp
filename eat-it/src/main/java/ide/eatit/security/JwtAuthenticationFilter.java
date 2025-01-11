@@ -7,12 +7,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.util.Collections;
 import java.util.Enumeration;
-
-
 import java.io.IOException;
-import java.util.stream.Collectors;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -27,10 +23,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             chain.doFilter(request, response);
             return;
         }
-        System.out.println("Request Headers: " + Collections.list(request.getHeaderNames())
-                .stream()
-                .map(name -> name + "=" + request.getHeader(name))
-                .collect(Collectors.joining(", ")));
 
         String bearerKeyword = "Bearer ";
         String header = request.getHeader("Authorization");
@@ -40,19 +32,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             response.getWriter().write("Missing or invalid Authorization header");
             System.out.println("Missing token.");
             return;
-
         }
         String token = header.substring(bearerKeyword.length());
-        if (JwtUtil.validateToken(token)) {
-            String username = JwtUtil.extractUsername(token);
-            System.out.println("Valid token for user: " + username);
-        } else {
+        if (!JwtUtil.validateToken(token)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Invalid token");
             System.out.println("Invalid token for user.");
             return;
+
         }
 
+        String username = JwtUtil.extractUsername(token);
+        System.out.println("Valid token for user: " + username);
         chain.doFilter(request, response);
     }
 

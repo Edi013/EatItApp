@@ -17,9 +17,9 @@ export class RecipeService {
 
   async getAllRecipes(): Promise<BaseResponse> {
     var response = await lastValueFrom(this.http.get<any>(this.recipeUrl));
-
+    var responseParsed = response as ItemsResponse<RecipeDto>;
     //if(!(response instanceof ItemsResponse) && !(response instanceof BaseResponse)){
-     if(response.hasFailed()){ 
+     if(responseParsed.hasFailed()){ 
         console.log("getAllRecipes failed. Parsing error.")  
       return ItemsResponse.failedResponse("Parsing error.");
     }
