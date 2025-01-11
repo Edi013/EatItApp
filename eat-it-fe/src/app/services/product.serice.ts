@@ -11,73 +11,83 @@ import { lastValueFrom, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ProductService {
-  private baseUrl = environment.productUrl;
+  private productUrl = environment.productUrl;
 
-  constructor(private httpService: HttpService) {}
+  constructor(private http: HttpService) {}
 
-  async getAllProducts(): Promise<ItemsResponse<ProductDto | null>> {
-    const response = await lastValueFrom(
-      await this.httpService.get<Observable<ItemsResponse<ProductDto>>>(this.baseUrl)
-    );
-    if (!(response instanceof ItemsResponse)) {
-        console.error('getAllProducts failed. Parsing error.');
-        return ItemsResponse.failedResponse('Parsing error.');
+  async getAllProducts(): Promise<ItemsResponse<ProductDto>> {
+      const response = await lastValueFrom(this.http.get<ItemsResponse<ProductDto>>(this.productUrl));
+      const responseParsed = new ItemsResponse<ProductDto>(
+        response.statusCode,
+        response.message,
+        response.status,
+        response.items ?? []
+      );
+  
+      if (!responseParsed) {
+        console.error('getAllRecipes failed. Parsing error.');
+        return ItemsResponse.failedResponse<ProductDto>('Parsing error.');
+      }
+  
+      return responseParsed;
     }
+
+    async getRecipeById(id: string): Promise<ItemResponse<ProductDto>> {
+        const response = await lastValueFrom(this.http.get<ItemResponse<ProductDto>>(`${this.productUrl}/${id}`));
+        const responseParsed = new ItemResponse<ProductDto>(
+          response.statusCode,
+          response.message,
+          response.status,
+          response.item
+        );
     
-    var result: ItemsResponse<ProductDto> = 
-            new ItemsResponse<ProductDto>
-                (response.statusCode, response.message, response.status, response.items);
-    return result;
-  }
+        if (!responseParsed) {
+          console.error('getRecipeById failed. Parsing error.');
+          return ItemResponse.failedResponse<ProductDto>('Parsing error.');
+        }
+    
+        return responseParsed;
+      }
 
-  async getProductById(productId: number): Promise<ItemResponse<ProductDto | null>> {
-    const response = await lastValueFrom(
-      await this.httpService.get<Observable<ItemResponse<ProductDto>>>(`${this.baseUrl}/${productId}`)
-    );
-
-    if (!(response instanceof ItemResponse)) {
-      console.error(`getProductById failed. Parsing error.`);
-      return ItemResponse.failedResponse('Parsing error.');
+  async createRecipe(productDto: ProductDto): Promise<ItemResponse<ProductDto>> {
+      const response = await lastValueFrom(this.http.post<ItemResponse<ProductDto>>(`${this.productUrl}`, productDto));
+      const responseParsed = new ItemResponse<ProductDto>(
+        response.statusCode,
+        response.message,
+        response.status,
+        response.item
+      );
+  
+      if (!responseParsed) {
+        console.error('createRecipe failed. Parsing error.');
+        return ItemResponse.failedResponse<ProductDto>('Parsing error.');
+      }
+  
+      return responseParsed;
     }
 
-    var result: ItemResponse<ProductDto> = 
-        new ItemResponse<ProductDto>
-            (response.statusCode, response.message, response.status, response.item);
-    return result;  
-    }
-
-  async createProduct(productDto: ProductDto): Promise<BaseResponse> {
-    const response = await lastValueFrom(
-      await this.httpService.post<Observable<BaseResponse>>(this.baseUrl, productDto)
+  async updateProduct(productId: number, productDto: ProductDto): Promise<ItemResponse<ProductDto>> {
+    const response = await lastValueFrom(this.http.put<ItemResponse<ProductDto>>(`${this.productUrl}/${productId}`, productDto));
+    const responseParsed = new ItemResponse<ProductDto>(
+      response.statusCode,
+      response.message,
+      response.status,
+      response.item
     );
 
-    if (!(response instanceof BaseResponse)) {
-      console.error('createProduct failed. Parsing error.');
-      return BaseResponse.failedResponse('Parsing error.');
-    }
-
-    return response;
-  }
-
-  async updateProduct(productId: number, productDto: ProductDto): Promise<BaseResponse> {
-    const response = await lastValueFrom(
-      await this.httpService.put<Observable<BaseResponse>>(`${this.baseUrl}/${productId}`, productDto)
-    );
-
-    if (!(response instanceof BaseResponse)) {
+    if (!responseParsed) {
       console.error('updateProduct failed. Parsing error.');
-      return BaseResponse.failedResponse('Parsing error.');
+      return ItemResponse.failedResponse<ProductDto>('Parsing error.');
     }
 
-    return response;
+    return responseParsed;
   }
 
   async deleteProduct(productId: number): Promise<BaseResponse> {
-    const response = await lastValueFrom(
-      await this.httpService.delete<Observable<BaseResponse>>(`${this.baseUrl}/${productId}`)
-    );
+    const response = await lastValueFrom
+    (this.http.delete<BaseResponse>(`${this.productUrl}/${productId}`));
 
-    if (!(response instanceof BaseResponse)) {
+    if (!response) {
       console.error('deleteProduct failed. Parsing error.');
       return BaseResponse.failedResponse('Parsing error.');
     }
