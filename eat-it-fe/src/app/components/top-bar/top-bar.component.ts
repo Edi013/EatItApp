@@ -15,7 +15,23 @@ export class TopBarComponent {
   
   constructor(private router: Router, private cookiesService: CookiesService) {
     this.username = cookiesService.getUsername() || '';
-   }
+  }
+  
+  navigateToCreateProduct() {
+    const url = '/create-product';
+    if(this.router.url === url) {
+      return;
+    }
+    this.router.navigate([url]);
+  }
+
+  navigateToCreateRecipe() {
+    const url = '/create-recipe';
+    if(this.router.url === url) {
+      return;
+    }
+    this.router.navigate([url]);
+  }
   
   navigateToUserRecipes() {
     const url = '/user-recipes';

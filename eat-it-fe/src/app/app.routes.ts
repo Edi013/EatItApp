@@ -5,9 +5,10 @@ import { NotFoundComponent } from './components/not-found/not-found.component'
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { NonAuthGuard } from './guards/non-auth.guard';
-import { ProductCarouselComponent } from './components/product-carousel/product-carousel.component';
 import { UserRecipesComponent } from './components/user-recipes/user-recipes.component';
 import { ProductsComponent } from './components/products/products.component';
+import { CreateRecipeComponent } from './components/create-recipe/create-recipe.component';
+import { CreateProductComponent } from './components/create-product/create-product.component';
 
 export const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, canActivate: [NonAuthGuard]},
@@ -16,6 +17,8 @@ export const appRoutes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' }, 
     { path: 'products', component: ProductsComponent, canActivate: [AuthGuard]},
     { path: 'user-recipes', component: UserRecipesComponent, canActivate: [AuthGuard]},
+    { path: 'create-recipe', component: CreateRecipeComponent, canActivate: [AuthGuard]},
+    { path: 'create-product', component: CreateProductComponent, canActivate: [AuthGuard]},
     { path: '404', component: NotFoundComponent, canActivate: [AuthGuard]},
     { path: '**', redirectTo: '/404'},
     

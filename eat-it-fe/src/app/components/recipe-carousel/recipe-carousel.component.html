@@ -1,6 +1,6 @@
 <div class="carousel-container">
   <div class="input-container">
-    <mat-card-title class="p-1">Recipes</mat-card-title>
+    <mat-card-title class="p-1"><span *ngIf="!userId">All</span> Recipes</mat-card-title>
     <input [(ngModel)]="filter" (ngModelChange)="onFilterChange()" placeholder="Enter recipe filter" />
   </div>
 
@@ -47,6 +47,11 @@
           <p>Loading...</p>
         </ng-template>
       </div>
+      <div class="data">
+        <p class="areaTitle">Cost</p> 
+        <span class="bold">{{currentEstimatedCost}} RON</span> for a meal
+      </div>
+
     </mat-card>
 
     <!-- Right Arrow -->

@@ -35,7 +35,6 @@ export class RecipeCarouselComponent implements OnChanges {
   @Input() products: ProductDto[] = [];
   currentIndex: number = 0;
   currentRecipeComposition: ExtendedProductDto[]= [];
-  currentEstimatedCost: number = 0;
   filter: string = '';
   filteredRecipesList: RecipeDto[] = [];
   private productsLoadedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -57,6 +56,11 @@ export class RecipeCarouselComponent implements OnChanges {
     );
     return this.filteredRecipesList;
   }  
+  get currentEstimatedCost(): number{
+    var result: number = 0;
+    this.currentRecipeComposition.map(product => result += product.value * product.quantity / 100);
+    return result;
+  }
 
   async onFilterChange(): Promise<void> {
     await this.loadCurrentRecipeComposition();
