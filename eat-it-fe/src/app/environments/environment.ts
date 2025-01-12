@@ -7,5 +7,6 @@ export const environment = {
     recipeDetailsUrl: '/recipe/details',
     recipeUrl: '/recipe',
     productUrl: '/product',
+    createProductUrl: '/create-product',
   };
   

@@ -6,22 +6,25 @@ import {MatChipsModule} from '@angular/material/chips';
 import { ProductDto } from '../../models/dtos/product-dto';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
-import { BehaviorSubject, map } from 'rxjs';
-import { RecipeDto } from '../../models/dtos/recipe-dto';
+import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
+import {MatButtonModule} from '@angular/material/button';
+
+
 
 @Component({
   selector: 'product-carousel',
   templateUrl: './product-carousel.component.html',
   styleUrls: ['./product-carousel.component.css'],
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatIconModule, MatChipsModule, MatFormFieldModule, FormsModule],
+  imports: [CommonModule, MatCardModule, MatIconModule, MatChipsModule, MatFormFieldModule, MatButtonModule, FormsModule],
 })
 export class ProductCarouselComponent{
   currentIndex: number = 0;
   filter: string = '';
   @Input() products: ProductDto[];
 
-  constructor() {
+  constructor(private router: Router) {
     this.products = [];
   }
 
@@ -45,5 +48,9 @@ export class ProductCarouselComponent{
     if (this.currentIndex > 0) {
       this.currentIndex--;
     }
+  }
+
+  navigateToCreateProduct(){
+    this.router.navigate([environment.createProductUrl]);
   }
 }

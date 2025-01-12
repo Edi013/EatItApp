@@ -3,7 +3,7 @@
     <mat-card-title class="p-1">All Products</mat-card-title>
     <input [(ngModel)]="filter" placeholder="Enter product filter" />
   </div>
-
+  <button mat-raised-button (click)="navigateToCreateProduct()">Create Item <mat-icon>plus_one</mat-icon></button>
   <div class="display-cotainer">
     <!-- Left Arrow -->
     <button mat-icon-button class="navigate-list-button" (click)="previousProduct()" [disabled]="currentIndex === 0">
