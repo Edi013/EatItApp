@@ -5,13 +5,15 @@ export class LoginResponse extends BaseResponse{
       statusCode: string,
       message: string,
       status: string,
-      public token: string
+      public token: string,
+      public userId: string,
+      public username: string
   ) {
     super(statusCode, message, status);  
     token = token ?? "";
   }
 
   static override failedResponse(message: string = ""): LoginResponse {
-    return new this('500', "Login failed. " + message, 'FAILED', "");
+    return new this('500', "Login failed. " + message, 'FAILED', "", "", "");
   }
 }

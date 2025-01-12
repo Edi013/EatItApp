@@ -5,12 +5,13 @@ import { RecipeDto } from '../models/dtos/recipe-dto';
 import { ItemResponse } from '../models/responses/item-response';
 import { BaseResponse } from '../models/responses/base-response';
 import { lastValueFrom } from 'rxjs';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RecipeService {
-  private recipeUrl = '/recipe';
+  private recipeUrl = environment.recipeUrl;
 
   constructor(private http: HttpService) {}
 

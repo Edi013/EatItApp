@@ -6,6 +6,7 @@ import ide.eatit.model.Recipe;
 import ide.eatit.model.dto.ProductRecipeQuantityDto;
 import ide.eatit.model.responses.BaseResponse;
 import ide.eatit.model.responses.ItemResponse;
+import ide.eatit.model.responses.ItemsResponse;
 import ide.eatit.service.ProductService;
 import ide.eatit.service.RecipeProductService;
 import ide.eatit.service.RecipeService;
@@ -43,7 +44,7 @@ public class RecipeProductController {
         if(result == null)
             return new BaseResponse("400", String.format("Recipe with id %s was not found", recipeId), "FAILED");
 
-        return new ItemResponse<>("200", "Cost calculation completed.", "SUCCESS", result);
+        return new ItemsResponse<>("200", "Products retrieval completed.", "SUCCESS", result);
     }
 
     @PostMapping()

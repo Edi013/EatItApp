@@ -12,12 +12,12 @@ import { ItemResponse } from '../models/responses/item-response';
   providedIn: 'root',
 })
 export class RecipeDetailsService {
-  private baseRecipeDetailsUrl = environment.baseUrl + environment.recipeDetailsUrl;
+  private recipeDetailsUrl = environment.recipeDetailsUrl;
 
   constructor(private http: HttpService) {}
 
   async getCostByRecipeId(recipeId: number): Promise<ItemResponse<ExtendedProductDto>> {
-    const url = `${this.baseRecipeDetailsUrl}/cost/${recipeId}`;
+    const url = `${this.recipeDetailsUrl}/cost/${recipeId}`;
     var response = await lastValueFrom(this.http.get<ItemResponse<ExtendedProductDto>>(url));
     const responseParsed = new ItemResponse<ExtendedProductDto>(
           response.statusCode,
@@ -34,8 +34,8 @@ export class RecipeDetailsService {
     return responseParsed;
   }
  
-  async getProductsByRecipeId(recipeId: number): Promise<ItemsResponse<ExtendedProductDto | null>> {
-    const url = `${this.baseRecipeDetailsUrl}/products/${recipeId}`;
+  async getProductsByRecipeId(recipeId: number): Promise<ItemsResponse<ExtendedProductDto>> {
+    const url = `${this.recipeDetailsUrl}/products/${recipeId}`;
     var response = await lastValueFrom(this.http.get<ItemsResponse<ExtendedProductDto>>(url));
     const responseParsed = new ItemsResponse<ExtendedProductDto>(
       response.statusCode,
@@ -53,7 +53,7 @@ export class RecipeDetailsService {
   }
 
   async putProductOnRecipe(dto: ProductRecipeQuantityDto): Promise<BaseResponse> {
-    const url = `${this.baseRecipeDetailsUrl}`;
+    const url = `${this.recipeDetailsUrl}`;
     var response = await lastValueFrom(this.http.post<BaseResponse>(url, dto));
 
     if(!response){

@@ -1,8 +1,8 @@
 import { HttpHandlerFn, HttpInterceptorFn, HttpRequest } from "@angular/common/http";
-import { JwtService } from "../services/utils/jwt.service";
+import { CookiesService } from "../services/utils/cookies.service";
 
 export const authenticationInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
-    const jwtService = new JwtService();
+    const jwtService = new CookiesService();
     const token = jwtService.getToken();
 
     const modifiedReq = req.clone({

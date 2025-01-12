@@ -1,7 +1,7 @@
 <div class="carousel-container">
   <div class="input-container">
     <mat-card-title class="p-1">Recipes</mat-card-title>
-    <input [(ngModel)]="filter" placeholder="Enter recipe filter" />
+    <input [(ngModel)]="filter" (ngModelChange)="onFilterChange()" placeholder="Enter recipe filter" />
   </div>
 
   <div class="display-cotainer">
@@ -10,7 +10,7 @@
       <mat-icon>arrow_back</mat-icon>
     </button>
 
-    <div *ngIf="recipes.length === 0" class="no-items">
+    <div *ngIf="filteredRecipes.length === 0" class="no-items">
       <mat-card>
         <mat-card-content>
           <p>No recipes have been created yet !</p>
@@ -19,25 +19,38 @@
     </div>
 
     <!-- Recipe Card -->
-    <mat-card class="recipe-card" *ngIf="recipes.length > 0">
+    <mat-card class="recipe-card" *ngIf="filteredRecipes.length > 0">
       <mat-card-header>
-        <mat-card-title>{{ recipes[currentIndex].name }}</mat-card-title>
+        <mat-card-title>{{ filteredRecipes[currentIndex].name }}</mat-card-title>
       </mat-card-header>
-
-      <mat-card-content>
+      <div class="data">
         <p class="areaTitle">Description</p> 
         <mat-chip>
-          <p>{{ recipes[currentIndex].description }}</p>
+          <p>{{ filteredRecipes[currentIndex].description }}</p>
         </mat-chip>
-      </mat-card-content>
-      
-      <mat-card-footer>
-        <small>Created By: {{ recipes[currentIndex].createdBy }}</small>
-      </mat-card-footer>
+      </div>
+      <div class="data">
+        <p *ngIf="currentRecipeComposition.length > 0" class="areaTitle">Ingredients</p>
+        <div *ngIf="productsLoaded$ | async; else loading">
+          <mat-chip-set>
+              <div *ngFor="let ingredient of currentRecipeComposition" class="ingredient-chip">
+                <mat-chip> {{ ingredient.name }} </mat-chip>
+                <mat-chip> {{ ingredient.quantity }} g </mat-chip>
+                <mat-chip> {{ ingredient.value }} RON / 100 g </mat-chip>
+              </div>
+            <div *ngIf="currentRecipeComposition.length === 0">
+              <p class="bold">No ingredients have been added</p>
+            </div>
+          </mat-chip-set>
+        </div>
+        <ng-template #loading>
+          <p>Loading...</p>
+        </ng-template>
+      </div>
     </mat-card>
 
     <!-- Right Arrow -->
-    <button mat-icon-button class="navigate-list-button" (click)="nextRecipe()" [disabled]="currentIndex === recipes.length - 1">
+    <button mat-icon-button class="navigate-list-button" (click)="nextRecipe()" [disabled]="currentIndex === filteredRecipes.length - 1">
       <mat-icon>arrow_forward</mat-icon>
     </button>
   </div>

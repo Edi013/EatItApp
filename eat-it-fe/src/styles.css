@@ -72,9 +72,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     border-radius: 0;
   }
 
-  mat-card-content {
-    
-  }
   .areaTitle{
     font-weight: bold;
     text-align: left;

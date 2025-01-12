@@ -35,6 +35,8 @@
     text-align: center;
     background-color: white;
     transition: transform 0.3s;
+    max-width: 3300px;
+    max-height: 3300px;
   }
 
   .product-card:hover {

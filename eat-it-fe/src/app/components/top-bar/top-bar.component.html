@@ -1,0 +1,14 @@
+<div class="top-bar">
+    <div class="logo-container">
+      <img src="assets/logo.jpg" (click)="navigateToHome()" alt="Logo" class="logo-image logo"/>
+      <div>
+        {{username}}
+      </div>
+    </div>
+    <nav class="nav-menu">
+        <button  (click)="navigateToHome()"><a routerLink="/" routerLinkActive="active">Recipes</a></button >
+        <button  (click)="navigateToProducts()"><a routerLink="/products" routerLinkActive="active">Products</a></button >
+        <button  (click)="navigateToUserRecipes()"><a routerLink="/user-recipes" routerLinkActive="active">My Recipes</a></button >
+    </nav>
+  </div>
+  

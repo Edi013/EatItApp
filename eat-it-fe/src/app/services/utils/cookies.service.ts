@@ -5,8 +5,10 @@ import Cookies from 'js-cookie';
 @Injectable({
     providedIn: 'root', 
   })
-export class JwtService{
+export class CookiesService{
     private tokenKey = 'jwt';  
+    private userIdKey = 'userId';
+    private usernameKey = 'username';
 
     storeToken(token: string): void {
         Cookies.set(this.tokenKey, token, { expires: this.getTokenExpirationDate() });
@@ -43,5 +45,22 @@ export class JwtService{
 
     getTokenExpirationDate(){
         return this.decodeToken()?.exp;
+    }
+
+    getUserId(){
+        return Cookies.get(this.userIdKey);
+    }
+
+    storeUserId(userId: string){
+        Cookies.set(this.userIdKey, userId);
+    }
+
+    getUsername(){
+        //return this.decodeToken()?.username;
+        return Cookies.get(this.usernameKey);
+    }
+
+    storeUsername(username: string){
+        Cookies.set(this.usernameKey, username);
     }
 }

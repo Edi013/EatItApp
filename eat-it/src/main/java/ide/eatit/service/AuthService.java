@@ -66,11 +66,10 @@ public class AuthService {
                 return new LoginResponse("401", "Invalid credentials. Bad password.", "SUCCESS.");
             }
 
-
             String token = JwtUtil.generateToken(user.getUsername());
 
             logger.info("Login successful for user with name and id {} - {}", user.getUsername(), user.getId());
-            return new LoginResponse("200", "Login succeeded. ",  "SUCCESS.", token);
+            return new LoginResponse("200", "Login succeeded. ",  "SUCCESS.", token, user.getId(), user.getUsername());
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return new LoginResponse("500", "Login failed. "+e.getMessage(), "FAILED. SERVER ERROR.");

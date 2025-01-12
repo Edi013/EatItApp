@@ -15,6 +15,5 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authenticationInterceptor])),
     provideAnimations(),
     AuthGuard,
-    
   ]
 };

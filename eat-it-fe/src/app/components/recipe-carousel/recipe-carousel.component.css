@@ -32,7 +32,8 @@
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
-    width: 300px;
+    max-width: 3300px;
+    max-height: 3300px;
     text-align: center;
     background-color: white;
     transition: transform 0.3s;
@@ -51,4 +52,27 @@
   .recipe-card p {
     font-size: 1rem;
     color: #666;
+  }
+
+  .data{
+    padding-bottom: 5px;
+  }
+
+  .ingredient-chip {
+    display: flex;
+    flex-direction: column; /* Ensures content is displayed in a vertical stack */
+    align-items: flex-start; /* Aligns text to the left */
+    padding: 8px; /* Adds some spacing inside the chip */
+    font-size: 14px; /* Adjust the font size if necessary */
+    line-height: 1.5; /* Adjusts line spacing for better readability */
+  }
+
+  .loading-spinner {
+    text-align: center;
+    font-size: 20px;
+    padding: 20px;
+  }
+
+  .bold{
+    font-weight: bold;
   }

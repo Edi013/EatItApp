@@ -9,10 +9,6 @@ import { FormsModule } from '@angular/forms';
 import { BehaviorSubject, map } from 'rxjs';
 import { RecipeDto } from '../../models/dtos/recipe-dto';
 
-
-
-
-
 @Component({
   selector: 'product-carousel',
   templateUrl: './product-carousel.component.html',

@@ -1,0 +1,42 @@
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    height: 55px;
+  }
+  
+  .top-bar .logo h1 {
+    margin: 0;
+  }
+  
+  .top-bar .nav-menu{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  
+  .top-bar .nav-menu button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: white;
+    margin-right: 20px;
+    text-decoration: none;
+    font-weight: bold; 
+    margin-right: 15px;
+    padding-right: 15px;
+  }  
+
+  .logo-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo{
+    padding: 1px;
+  }

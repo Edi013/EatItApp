@@ -4,30 +4,28 @@ import { RecipeService } from '../../services/recipe.service';
 import { RecipeCarouselComponent } from "../recipe-carousel/recipe-carousel.component";
 import { ProductService } from '../../services/product.serice';
 import { ProductDto } from '../../models/dtos/product-dto';
-import { ProductCarouselComponent } from '../product-carousel/product-carousel.component';
 import {MatDividerModule} from '@angular/material/divider';
+import { TopBarComponent } from '../top-bar/top-bar.component';
 
 
 @Component({
   selector: 'app-home',
   imports: [
     RecipeCarouselComponent,
-    ProductCarouselComponent,
-    MatDividerModule
+    MatDividerModule,
+    TopBarComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
   recipes: RecipeDto[] = [];
-  products: ProductDto[] = [];
   errorMessage: string | null = null;
 
   constructor(private recipeService: RecipeService, private productService: ProductService) {}
 
   async ngOnInit(): Promise<void> {
    await this.getRecipes();
-   await this.getProducts();
   }
 
   private async getRecipes(): Promise<void> {
@@ -37,22 +35,6 @@ export class HomeComponent {
         this.errorMessage = 'Failed to fetch recipes';
       }
       this.recipes = response.items;
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        this.errorMessage = 'Error fetching recipes: ' + error.message;
-      } else {
-        this.errorMessage = 'Error fetching recipes';
-      }
-    }
-  }
-
-  private async getProducts(): Promise<void> {
-    try {
-      const response = await this.productService.getAllProducts();
-      if (response.hasFailed()) {
-        this.errorMessage = 'Failed to fetch recipes';
-      }
-      this.products = response.items;
     } catch (error: unknown) {
       if (error instanceof Error) {
         this.errorMessage = 'Error fetching recipes: ' + error.message;

@@ -4,7 +4,7 @@ import { environment} from '../environments/environment'
 import { LoginResponse } from '../models/responses/login-response';
 import { firstValueFrom } from 'rxjs';
 import { BaseResponse } from '../models/responses/base-response';
-import { JwtService } from './utils/jwt.service';
+import { CookiesService } from './utils/cookies.service';
 
 @Injectable({
   providedIn: 'root', 
@@ -12,13 +12,13 @@ import { JwtService } from './utils/jwt.service';
 export class AuthService {
   private apiUrl = environment.baseUrl + environment.authBaseUrl;  
 
-  constructor(private http: HttpClient, private jwtService: JwtService) {}
+  constructor(private http: HttpClient, private jwtService: CookiesService) {}
   
   async login(username: string, password: string): Promise<LoginResponse>{
     const loginData = { username, password };
     const loginUrl = this.apiUrl + environment.loginUrl;
     var httpResponse = await firstValueFrom(this.http.post<LoginResponse>(loginUrl, loginData));
-    var response: LoginResponse = new LoginResponse(httpResponse.statusCode, httpResponse.message, httpResponse.status, httpResponse.token || "");
+    var response: LoginResponse = new LoginResponse(httpResponse.statusCode, httpResponse.message, httpResponse.status, httpResponse.token || "", httpResponse.userId || "", httpResponse.username || "");
     if(!response || response.token ===  undefined){
       console.log("Login failed. Parsing error.")  
       return LoginResponse.failedResponse("Parsing error.");
@@ -30,6 +30,9 @@ export class AuthService {
     }
     
     this.jwtService.storeToken(response.token);
+    this.jwtService.storeUserId(response.userId);
+    this.jwtService.storeUsername(response.username);
+
     console.log("Login succeeded.")
     return response;
   }
@@ -46,11 +49,11 @@ export class AuthService {
 
     if(response.hasFailed())
     {
-      console.log("Register failed.")
+      console.log("Register failed.");
       return response;
     }
     
-    console.log("Register succeeded.")
+    console.log("Register succeeded.");
     return response;
   }
 
