@@ -63,7 +63,7 @@ public class RecipeController {
     }
 
     @PostMapping
-    public BaseResponse insertRecipe(@RequestBody RecipeDto recipeDto) {
+    public BaseResponse createRecipe(@RequestBody RecipeDto recipeDto) {
         RecipeDto insertedRecipe = recipeService.createRecipe(recipeDto);
         if (insertedRecipe == null) {
             return new BaseResponse("500", "Failed to insert recipe.", "FAILED");

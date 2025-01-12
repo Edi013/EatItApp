@@ -4,14 +4,13 @@
     <h2>Create Recipe</h2>
     <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <label for="name">Recipe Name:</label>
+        <label for="name">Title:</label>
         <input
           id="name"
           formControlName="name"
           class="form-control"
           type="text"
-          placeholder="Enter recipe name"
-        />
+          placeholder="Enter recipe name"/>
         <div *ngIf="recipeForm.get('name')?.touched && recipeForm.get('name')?.invalid" class="invalid-feedback">
             <div *ngIf="recipeForm.get('name')?.hasError('required')">
               Name is required.

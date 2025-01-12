@@ -67,20 +67,24 @@ export class RecipeService {
   }
 
   async createRecipe(recipeDto: RecipeDto): Promise<ItemResponse<RecipeDto>> {
-    const response = await lastValueFrom(this.http.post<ItemResponse<RecipeDto>>(`${this.recipeUrl}`, recipeDto));
-    const responseParsed = new ItemResponse<RecipeDto>(
+    try{
+
+      const response = await lastValueFrom(this.http.post<ItemResponse<RecipeDto>>(`${this.recipeUrl}`, recipeDto));
+      const responseParsed = new ItemResponse<RecipeDto>(
       response.statusCode,
       response.message,
       response.status,
       response.item
     );
-
     if (!responseParsed) {
       console.error('createRecipe failed. Parsing error.');
       return ItemResponse.failedResponse<RecipeDto>('Parsing error.');
     }
-
     return responseParsed;
+  } catch (error) {
+    console.error('createRecipe failed. Parsing error.');
+    return ItemResponse.failedResponse<RecipeDto>('Parsing error.');
+  }
   }
 
   async updateRecipe(id: number, recipeDto: RecipeDto): Promise<ItemResponse<RecipeDto>> {

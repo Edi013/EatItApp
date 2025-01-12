@@ -3,6 +3,7 @@ package ide.eatit.service;
 import ide.eatit.model.Recipe;
 import ide.eatit.model.User;
 import ide.eatit.model.dto.RecipeDto;
+import ide.eatit.model.responses.BaseResponse;
 import ide.eatit.repository.RecipeRepository;
 import ide.eatit.repository.UserRepository;
 import org.slf4j.Logger;
@@ -26,17 +27,22 @@ public class RecipeService {
 
     @Transactional
     public RecipeDto createRecipe(RecipeDto recipe) {
-        Recipe recipeEntity = new Recipe();
-        recipeEntity.setName(recipe.getName());
-        recipeEntity.setDescription(recipe.getDescription());
-        var user = userRepository.findById(recipe.getCreatedBy());
+        try{
+            Recipe recipeEntity = new Recipe();
+            recipeEntity.setName(recipe.getName());
+            recipeEntity.setDescription(recipe.getDescription());
+            var userId = recipe.getCreatedBy();
+            var user = userRepository.findById(userId);
 
-        if(user.isPresent()){
-        var createdBy = userRepository.findById(user.get().getId());
-            createdBy.ifPresent(recipeEntity::setCreatedBy);
+            if(user.isPresent()){
+            var createdBy = userRepository.findById(user.get().getId());
+                createdBy.ifPresent(recipeEntity::setCreatedBy);
+            }
+            var addedEntity = recipeRepository.save(recipeEntity);
+            return new RecipeDto(addedEntity.getId(), addedEntity.getName(), addedEntity.getDescription(), addedEntity.getCreatedBy().getId());
+        }catch (Exception e){
+            return null;
         }
-        var addedEntity = recipeRepository.save(recipeEntity);
-        return new RecipeDto(addedEntity.getId(), addedEntity.getName(), addedEntity.getDescription(), addedEntity.getCreatedBy().getId());
     }
 
     @Transactional(readOnly = true)
