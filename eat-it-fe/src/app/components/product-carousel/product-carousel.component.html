@@ -1,0 +1,38 @@
+<mat-card class="carousel-container">
+  <div class="input-container">
+    <mat-card-title class="p-1">Products</mat-card-title>
+    <input [(ngModel)]="filter" placeholder="Enter product filter" />
+  </div>
+
+  <div class="display-cotainer">
+    <!-- Left Arrow -->
+    <button mat-icon-button class="navigate-list-button" (click)="previousProduct()" [disabled]="currentIndex === 0">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    
+    <div *ngIf="filteredProducts.length === 0" class="no-products">
+      <mat-card>
+        <mat-card-content>
+          <p>No products have been created yet!</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <!-- Product Card -->
+    <mat-card class="product-card" *ngIf="filteredProducts.length > 0">
+      <mat-card-header>
+        <mat-card-title>{{ filteredProducts[currentIndex].name }} </mat-card-title>
+      </mat-card-header>
+      
+      <p class="areaTitle">Value</p> 
+      <mat-chip>
+        {{ filteredProducts[currentIndex].value }} RON per 100g
+      </mat-chip>
+    </mat-card>
+    
+    <!-- Right Arrow -->
+    <button mat-icon-button class="navigate-list-button" (click)="nextProduct()" [disabled]="currentIndex === filteredProducts.length - 1">
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
+</mat-card>
+  

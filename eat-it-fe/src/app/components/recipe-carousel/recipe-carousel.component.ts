@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RecipeService } from '../../services/recipe.service';
 import { RecipeDto } from '../../models/dtos/recipe-dto';
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import {MatChipsModule} from '@angular/material/chips';
+
 
 
 
@@ -13,10 +14,12 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./recipe-carousel.component.css'],
   imports: [CommonModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatChipsModule
   ]
 })
 export class RecipeCarouselComponent  {
+  filteredRecipes: RecipeDto[] = [];
   @Input() recipes: RecipeDto[] = [];
   currentIndex: number = 0;
 
