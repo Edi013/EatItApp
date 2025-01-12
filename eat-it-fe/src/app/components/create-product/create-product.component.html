@@ -1,45 +1,45 @@
 <top-bar></top-bar>
 <div class="spacer"></div>
 <div class="product-create-container">
-    <h2>Create Product</h2>
+  <h2>Create Product</h2>
+  
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <!-- Product Name -->
+    <div class="form-group">
+      <label for="name">Product Name</label>
+      <input
+      id="name"
+      formControlName="name"
+      type="text"
+      class="form-control"
+      placeholder="Enter product name"
+      />
+      <!-- Validation message -->
+      <div *ngIf="productForm.get('name')?.touched && productForm.get('name')?.invalid" class="invalid-feedback">
+        <div *ngIf="productForm.get('name')?.hasError('required')">Name is required</div>
+        <div *ngIf="productForm.get('name')?.hasError('minlength')">Name must be at least 3 characters long</div>
+      </div>
+    </div>
     
-    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-      <!-- Product Name -->
-      <div class="form-group">
-        <label for="name">Product Name</label>
-        <input
-        id="name"
-        formControlName="name"
-        type="text"
-        class="form-control"
-        placeholder="Enter product name"
-        />
-        <!-- Validation message -->
-        <div *ngIf="productForm.get('name')?.touched && productForm.get('name')?.invalid" class="invalid-feedback">
-          <div *ngIf="productForm.get('name')?.hasError('required')">Name is required</div>
-          <div *ngIf="productForm.get('name')?.hasError('minlength')">Name must be at least 3 characters long</div>
-        </div>
+    <!-- Product Value -->
+    <div class="form-group">
+      <label for="value">Product Value (RON)</label>
+      <input
+      id="value"
+      formControlName="value"
+      type="number"
+      class="form-control"
+      placeholder="Enter product value"
+      />
+      <!-- Validation message -->
+      <div *ngIf="productForm.get('value')?.touched && productForm.get('value')?.invalid" class="invalid-feedback">
+        <div *ngIf="productForm.get('value')?.hasError('required')">Value is required</div>
+        <div *ngIf="productForm.get('value')?.hasError('min')">Value must be a positive, at least 0.5</div>
       </div>
-      
-      <!-- Product Value -->
-      <div class="form-group">
-        <label for="value">Product Value (RON)</label>
-        <input
-        id="value"
-        formControlName="value"
-        type="number"
-        class="form-control"
-        placeholder="Enter product value"
-        />
-        <!-- Validation message -->
-        <div *ngIf="productForm.get('value')?.touched && productForm.get('value')?.invalid" class="invalid-feedback">
-          <div *ngIf="productForm.get('value')?.hasError('required')">Value is required</div>
-          <div *ngIf="productForm.get('value')?.hasError('min')">Value must be a positive, at least 0.5</div>
-        </div>
-      </div>
-      
-      <!-- Submit Button -->
-      <button type="submit" class="btn btn-primary" [disabled]="productForm.invalid">Create Product</button>
-    </form>
+    </div>
+    
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary" [disabled]="productForm.invalid">Create Product</button>
+  </form>
 </div>
   

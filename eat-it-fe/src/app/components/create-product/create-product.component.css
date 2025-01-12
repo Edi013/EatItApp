@@ -1,3 +1,13 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  background-color: #f1f1f1;
+}
+
  .product-create-container {
     max-width: 600px;
     margin: 0 auto;
@@ -23,6 +33,14 @@
   .btn {
     width: 100%;
     padding: 10px;
+    background-color: #333333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .btn:hover {
+    background-color: #606060;
   }
   
   .invalid-feedback {
@@ -34,17 +52,8 @@
     border-color: red;
   }
 
-  body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-    background-color: #f1f1f1;
-  }
 
   .spacer{
     height: 190px;
-    width: 100%;
+    width: 300px;
   }

@@ -33,7 +33,7 @@ export class CreateProductComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  async onSubmit(): Promise<void> {
+  async onSubmit(){
     if (this.productForm.invalid) {
       return;
     }

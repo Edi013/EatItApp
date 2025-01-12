@@ -36,7 +36,7 @@ export class UserRecipesComponent implements OnInit {
          if (response.hasFailed()) {
            this.errorMessage = 'Failed to fetch recipes';
          }
-         this.recipes = response.items.filter(recipe => recipe.createdBy === this.currentUserId);
+         this.recipes = response.items;
        } catch (error: unknown) {
          if (error instanceof Error) {
            this.errorMessage = 'Error fetching recipes: ' + error.message;
