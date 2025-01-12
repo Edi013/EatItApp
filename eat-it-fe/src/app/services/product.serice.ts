@@ -49,7 +49,7 @@ export class ProductService {
         return responseParsed;
       }
 
-  async createRecipe(productDto: ProductDto): Promise<ItemResponse<ProductDto>> {
+  async createProduct(productDto: ProductDto): Promise<ItemResponse<ProductDto>> {
       const response = await lastValueFrom(this.http.post<ItemResponse<ProductDto>>(`${this.productUrl}`, productDto));
       const responseParsed = new ItemResponse<ProductDto>(
         response.statusCode,
