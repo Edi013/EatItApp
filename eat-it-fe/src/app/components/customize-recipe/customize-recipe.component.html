@@ -1,0 +1,36 @@
+<top-bar><top-bar>
+    <div class="customize-recipe-container">
+    <div class="recipe-selection">
+      <h3>Select a Recipe</h3>
+      <recipe-carousel
+        [recipes]="recipes"
+        (recipeSelected)="onRecipeSelected($event)">
+    </recipe-carousel>
+      <p *ngIf="!selectedRecipe" class="no-recipe-warning">Please select a recipe.</p>
+    </div>
+    <div class="recipe-selection">
+        <h3>Select a Recipe</h3>
+        <product-carousel
+          [products]="products"
+          (currentProduct) = "onProductSelected($event)">
+        </product-carousel>
+        <p *ngIf="!selectedRecipe" class="no-recipe-warning">Please select a recipe.</p>
+    </div>
+    <!-- <div class="product-selection" *ngIf="selectedRecipe">
+      <h3>Assign Products to Recipe: {{ selectedRecipe.name }}</h3>
+      <form [formGroup]="form" (ngSubmit)="customizeRecipe()">
+        <div *ngFor="let product of products" class="product-checkbox">
+          <input
+            type="checkbox"
+            [formControlName]="product.id"
+            id="product-{{ product.id }}"
+          />
+          <label for="product-{{ product.id }}">{{ product.name }}</label>
+        </div>
+        <button type="submit" class="customize-btn" [disabled]="!form.valid">
+          Assign Products
+        </button>
+      </form>
+    </div> -->
+  </div>
+  

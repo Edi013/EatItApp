@@ -44,6 +44,11 @@
         class="btn">
         Create Recipe
       </button>
+
+      <button *ngIf="createdSuccessfully" (click)="navigateToCustomizeRecipe()"
+        class="btn">
+        Customize your last created recipe
+      </button>
     </form>
   </div>
   

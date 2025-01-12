@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, output, Output, SimpleChanges } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
@@ -19,13 +19,20 @@ import {MatButtonModule} from '@angular/material/button';
   standalone: true,
   imports: [CommonModule, MatCardModule, MatIconModule, MatChipsModule, MatFormFieldModule, MatButtonModule, FormsModule],
 })
-export class ProductCarouselComponent{
+export class ProductCarouselComponent implements OnChanges{
   currentIndex: number = 0;
   filter: string = '';
   @Input() products: ProductDto[];
+  currentProduct = output<ProductDto>();;
 
   constructor(private router: Router) {
     this.products = [];
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['products'] && this.products.length > 0) {
+      this.selectCurrentProduct();
+    }  
   }
 
   get filteredProducts(): ProductDto[] {
@@ -41,13 +48,19 @@ export class ProductCarouselComponent{
   nextProduct(): void {
     if (this.currentIndex < this.products.length - 1) {
       this.currentIndex++;
+      this.selectCurrentProduct();
     }
   }
 
   previousProduct(): void {
     if (this.currentIndex > 0) {
       this.currentIndex--;
+      this.selectCurrentProduct();
     }
+  }
+
+  private selectCurrentProduct(): void {
+    this.currentProduct.emit(this.products[this.currentIndex]);
   }
 
   navigateToCreateProduct(){
