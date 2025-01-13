@@ -9,5 +9,7 @@ export const environment = {
     productUrl: '/product',
     createProductUrl: '/create-product',
     customizeRecipeUrl: '/customize-recipe',
+    userRecipesUrl: '/user-recipes',
+
   };
   

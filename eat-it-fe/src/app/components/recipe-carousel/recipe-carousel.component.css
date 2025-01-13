@@ -76,3 +76,10 @@
   .bold{
     font-weight: bold;
   }
+  
+  .horizontalDirection{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+  }

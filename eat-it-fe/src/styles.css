@@ -38,7 +38,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   .form-container-link .link:hover {
     text-decoration: none;
   }
-
+  button{
+    background-color: #333333;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
   /* Navigate a List Components design */
   .navigate-list-button {
     background-color: transparent;

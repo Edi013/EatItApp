@@ -9,18 +9,18 @@ import { UserRecipesComponent } from './components/user-recipes/user-recipes.com
 import { ProductsComponent } from './components/products/products.component';
 import { CreateRecipeComponent } from './components/create-recipe/create-recipe.component';
 import { CreateProductComponent } from './components/create-product/create-product.component';
+import { CustomizeRecipeComponent } from './components/customize-recipe/customize-recipe.component';
 
 export const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, canActivate: [NonAuthGuard]},
     { path: 'register', component: RegisterComponent, canActivate: [NonAuthGuard]},
     { path: 'home', component: HomeComponent , canActivate: [AuthGuard]},
-    { path: '', redirectTo: '/home', pathMatch: 'full' }, 
     { path: 'products', component: ProductsComponent, canActivate: [AuthGuard]},
     { path: 'user-recipes', component: UserRecipesComponent, canActivate: [AuthGuard]},
     { path: 'create-recipe', component: CreateRecipeComponent, canActivate: [AuthGuard]},
     { path: 'create-product', component: CreateProductComponent, canActivate: [AuthGuard]},
+    { path: 'customize-recipe', component: CustomizeRecipeComponent, canActivate: [AuthGuard]},
+    { path: '', redirectTo: '/home', pathMatch: 'full' }, 
     { path: '404', component: NotFoundComponent, canActivate: [AuthGuard]},
-    { path: '**', redirectTo: '/404'},
-    
-
+    { path: '**', redirectTo: '/404'},  
 ];

@@ -1,36 +1,28 @@
-<top-bar><top-bar>
-    <div class="customize-recipe-container">
-    <div class="recipe-selection">
-      <h3>Select a Recipe</h3>
-      <recipe-carousel
-        [recipes]="recipes"
-        (recipeSelected)="onRecipeSelected($event)">
-    </recipe-carousel>
-      <p *ngIf="!selectedRecipe" class="no-recipe-warning">Please select a recipe.</p>
-    </div>
-    <div class="recipe-selection">
-        <h3>Select a Recipe</h3>
-        <product-carousel
-          [products]="products"
-          (currentProduct) = "onProductSelected($event)">
-        </product-carousel>
-        <p *ngIf="!selectedRecipe" class="no-recipe-warning">Please select a recipe.</p>
-    </div>
-    <!-- <div class="product-selection" *ngIf="selectedRecipe">
-      <h3>Assign Products to Recipe: {{ selectedRecipe.name }}</h3>
-      <form [formGroup]="form" (ngSubmit)="customizeRecipe()">
-        <div *ngFor="let product of products" class="product-checkbox">
-          <input
-            type="checkbox"
-            [formControlName]="product.id"
-            id="product-{{ product.id }}"
-          />
-          <label for="product-{{ product.id }}">{{ product.name }}</label>
-        </div>
-        <button type="submit" class="customize-btn" [disabled]="!form.valid">
-          Assign Products
-        </button>
-      </form>
-    </div> -->
+<top-bar></top-bar>
+<div class="customize-recipe-container">
+  <div class="recipe-selection">
+    <div class="horizontalDirection"><h3>Select a Recipe</h3> <button mat-raised-button (click)="customizeRecipe()">Add product to recipe</button></div>
+    <recipe-carousel
+    *ngIf="recipes.length > 0"
+    [recipes]="recipes"
+    (currentRecipe)="onRecipeSelected($event)">
+  </recipe-carousel>
+  <div *ngIf="recipes.length === 0">
+    Loading...
   </div>
+  <p *ngIf="!selectedRecipe && recipes.length > 0" class="no-recipe-warning">Please select a recipe.</p>
+</div>
+
+<div class="recipe-selection">
+  <h3>Select a Product</h3>
+  <product-carousel *ngIf="products.length > 0"
+  [products]="products"
+  (currentProduct)="onProductSelected($event)">
+</product-carousel>
+<div *ngIf="products.length === 0">
+  Loading...
+  </div>
+    <p *ngIf="!selectedProduct && products.length > 0" class="no-recipe-warning">Please select a product.</p>
+  </div>
+</div>
   

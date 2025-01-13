@@ -10,6 +10,10 @@ import { BaseResponse } from '../../models/responses/base-response';
 import { SnackbarService } from '../../services/utils/snackbar.service';
 import { RecipeCarouselComponent } from '../recipe-carousel/recipe-carousel.component';
 import { ProductCarouselComponent } from '../product-carousel/product-carousel.component';
+import { ProductService } from '../../services/product.serice';
+import { RecipeService } from '../../services/recipe.service';
+import { CookiesService } from '../../services/utils/cookies.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-customize-recipe',
   imports: [
@@ -29,69 +33,91 @@ export class CustomizeRecipeComponent implements OnInit {
   products: ProductDto[] = [];
   selectedRecipe: RecipeDto | null = null;
   selectedProduct: ProductDto | null = null;
-  form: FormGroup;
+  userId: string;
+  // form: FormGroup;
+  errorMessage = '';
 
   constructor(
     private recipeDetailsService: RecipeDetailsService,
     private fb: FormBuilder,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private productService: ProductService,
+    private recipeService: RecipeService,    
+    private cookiesService: CookiesService,
+    private router: Router
   ) {
-    this.form = this.fb.group({
-      productSelection: this.fb.group({}),
-    });
+    this.userId = this.cookiesService.getUserId() ?? "";
+    // this.form = this.fb.group({
+    //   productSelection: this.fb.group({}),
+    // });
   }
 
   async ngOnInit(): Promise<void> {
-    this.recipes = await this.fetchRecipes();
-    this.products = await this.fetchProducts();
-
-    // Initialize product selection form group
-    const productSelectionGroup: { [key: string]: boolean } = {};
-    this.products.forEach(product => {
-      productSelectionGroup[product.id] = false;
-    });
-
-    this.form.setControl('productSelection', this.fb.group(productSelectionGroup));
+    await this.getProducts();
+    await this.getRecipes();
   }
 
-  async fetchRecipes(): Promise<RecipeDto[]> {
-    // Replace with actual API call to get recipes
-    return [];
+  private async getRecipes(): Promise<void> {
+    try {
+      const response = await this.recipeService.getAllRecipes();
+      if (response.hasFailed()) {
+        this.errorMessage = 'Failed to fetch recipes';
+      }
+      this.recipes = response.items;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        this.errorMessage = 'Error fetching recipes: ' + error.message;
+      } else {
+        this.errorMessage = 'Error fetching recipes';
+      }
+    }
   }
 
-  async fetchProducts(): Promise<ProductDto[]> {
-    // Replace with actual API call to get products
-    return [];
+  private async getProducts(): Promise<void> {
+    try {
+      const response = await this.productService.getAllProducts();
+      if (response.hasFailed()) {
+        this.errorMessage = 'Failed to fetch recipes';
+      }
+      this.products = response.items;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        this.errorMessage = 'Error fetching recipes: ' + error.message;
+      } else {
+        this.errorMessage = 'Error fetching recipes';
+      }
+    }
   }
 
   async customizeRecipe(): Promise<void> {
     if (!this.selectedRecipe) {
-      alert('Please select a recipe first.');
+      this.snackbarService.showSnackbar('Please select a recipe first.');
+      return;
+    }
+    if (!this.selectedProduct) {
+      this.snackbarService.showSnackbar('Please select a product first.');
       return;
     }
 
-    const productSelection = this.form.value.productSelection;
-    const selectedProductIds = Object.keys(productSelection).filter(
-      id => productSelection[id]
-    );
-
-    for (const productId of selectedProductIds) {
       const dto: ProductRecipeQuantityDto = {
         recipeId: this.selectedRecipe.id,
-        productId: parseInt(productId),
+        productId: this.selectedProduct.id,
         quantity: 100, 
       };
-
+      var message = "";
       const response: BaseResponse = await this.recipeDetailsService.putProductOnRecipe(dto);
-      if (response.hasFailed()) {
-        console.error(`Failed to assign product ${productId} to recipe ${this.selectedRecipe.id}`);
-        this.snackbarService.showSnackbar('The product was not assigned to the recipe.');
+      const responseParsed = new BaseResponse(response.statusCode, response.message, response.status);
+      if (responseParsed.hasFailed()) {
+        message = `Failed to assign product ${this.selectedProduct.id} to recipe ${this.selectedRecipe.id}`;
+        console.error(message);
+        this.snackbarService.showSnackbar(message);
       }
-    }
-    const message = 'Product successfully assigned to the recipe.';
-    console.error(message);
-    this.snackbarService.showSnackbar(message);
+      this.refreshPage()
+      message = 'Product successfully assigned to the recipe.';
+      console.error(message);
+      this.snackbarService.showSnackbar(message);
   }
+  
 
   onProductSelected(product: ProductDto): void {
     this.selectedProduct = product;
@@ -99,6 +125,12 @@ export class CustomizeRecipeComponent implements OnInit {
 
   onRecipeSelected(recipe: RecipeDto): void {
     this.selectedRecipe = recipe;
+  }
+
+  refreshPage(): void {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([this.router.url]);
+    });
   }
 }
 

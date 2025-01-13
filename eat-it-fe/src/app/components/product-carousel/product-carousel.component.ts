@@ -23,10 +23,12 @@ export class ProductCarouselComponent implements OnChanges{
   currentIndex: number = 0;
   filter: string = '';
   @Input() products: ProductDto[];
+  filteredProductsList: ProductDto[];
   currentProduct = output<ProductDto>();;
 
   constructor(private router: Router) {
     this.products = [];
+    this.filteredProductsList = [];
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -39,9 +41,11 @@ export class ProductCarouselComponent implements OnChanges{
     const filtered = this.products.filter(product =>
       product.name.toLowerCase().includes(this.filter.toLowerCase())
     );
+    this.filteredProductsList = filtered;
     if (this.currentIndex >= filtered.length) {
       this.currentIndex = 0; 
     }
+    this.selectCurrentProduct();
     return filtered;
   }
 
@@ -60,7 +64,7 @@ export class ProductCarouselComponent implements OnChanges{
   }
 
   private selectCurrentProduct(): void {
-    this.currentProduct.emit(this.products[this.currentIndex]);
+    this.currentProduct.emit(this.filteredProductsList[this.currentIndex]);
   }
 
   navigateToCreateProduct(){
