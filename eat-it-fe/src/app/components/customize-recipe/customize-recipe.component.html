@@ -5,6 +5,7 @@
     <recipe-carousel
     *ngIf="recipes.length > 0"
     [recipes]="recipes"
+    [userId]="userId"
     (currentRecipe)="onRecipeSelected($event)">
   </recipe-carousel>
   <div *ngIf="recipes.length === 0">

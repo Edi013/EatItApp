@@ -17,7 +17,7 @@ Table recipes {
   id integer [primary key]
   name varchar [note: 'Name of the recipe']
   description text [note: 'Detailed description of the recipe']
-  estimatedCost decimal [note: 'Calculated cost based on product prices']
+  estimated_cost decimal [note: 'Calculated cost based on product prices']
   createdBy UUID
 }
 
@@ -25,6 +25,7 @@ Table recipe_products {
   id integer [primary key]
   recipe_id integer 
   product_id integer 
+  quantity integer
 }
 
 Ref: recipe_products.recipe_id > recipes.id

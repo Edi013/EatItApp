@@ -1,6 +1,5 @@
 package ide.eatit.controller;
 
-
 import ide.eatit.model.Product;
 import ide.eatit.model.Recipe;
 import ide.eatit.model.dto.ProductRecipeQuantityDto;

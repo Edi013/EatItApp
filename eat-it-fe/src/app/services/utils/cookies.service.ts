@@ -55,6 +55,10 @@ export class CookiesService{
         Cookies.set(this.userIdKey, userId);
     }
 
+    removeUserId(): void {
+        Cookies.remove(this.userIdKey);
+    }
+
     getUsername(){
         //return this.decodeToken()?.username;
         return Cookies.get(this.usernameKey);
@@ -62,5 +66,15 @@ export class CookiesService{
 
     storeUsername(username: string){
         Cookies.set(this.usernameKey, username);
+    }
+
+    removeUsername(): void {
+        Cookies.remove(this.usernameKey);
+    }
+
+    removeCookies(): void {
+        this.removeToken();
+        this.removeUserId();
+        this.removeUsername();
     }
 }

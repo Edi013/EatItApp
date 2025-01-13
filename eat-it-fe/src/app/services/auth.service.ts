@@ -41,20 +41,21 @@ export class AuthService {
     const registerData = {username, password}
     const registerUrl = this.apiUrl + environment.registerUrl;
     const response = await firstValueFrom(this.http.post<BaseResponse>(registerUrl, registerData));
+    var responseParsed = new BaseResponse(response.statusCode, response.message, response.status);
 
-    if(!(response instanceof BaseResponse)){
+    if(!(responseParsed instanceof BaseResponse)){
       console.log("Register failed. Parsing error.")  
       return BaseResponse.failedResponse("Parsing error.");
     }
 
-    if(response.hasFailed())
+    if(responseParsed.hasFailed())
     {
       console.log("Register failed.");
-      return response;
+      return responseParsed;
     }
     
     console.log("Register succeeded.");
-    return response;
+    return responseParsed;
   }
 
   logout(){

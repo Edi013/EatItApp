@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { SnackbarService } from '../../services/utils/snackbar.service';
+import { BaseResponse } from '../../models/responses/base-response';
 
 @Component({
   selector: 'app-register',
@@ -62,7 +63,6 @@ export class RegisterComponent {
     const { username, password, _ } = this.registerForm.value;
     try {
       const response = await this.authService.register(username, password);
-      
       if (response.hasFailed())
       {
         this.errorMessage = response.handleMessageByStatusCode();

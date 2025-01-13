@@ -76,7 +76,7 @@ public class AuthService {
         }
     }
 
-    @Transactional()
+    @Transactional
     public BaseResponse register(AuthRequest authRequest) {
         try {
             if (userRepository.existsByUsername(authRequest.getUsername())) {

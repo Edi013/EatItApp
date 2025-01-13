@@ -123,8 +123,8 @@ export class RecipeCarouselComponent implements OnChanges {
     this.currentRecipe.emit(this.filteredRecipesList[this.currentIndex]);
   }
 
-  private hasOwnedRecipesLoaded(): boolean {
-    return this.router.url === environment.userRecipesUrl && this.userId !== '';
+  hasOwnedRecipesLoaded(): boolean {
+    return this.router.url === environment.userRecipesUrl;
   }
 
   async deleteRecipe(): Promise<void> {
@@ -144,7 +144,9 @@ export class RecipeCarouselComponent implements OnChanges {
 
   refreshPage(): void {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate([this.router.url]);
+      this.router.navigate([environment.userRecipesUrl]);
     });
   }
+
+  
 }

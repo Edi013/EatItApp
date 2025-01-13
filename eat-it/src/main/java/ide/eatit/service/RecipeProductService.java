@@ -47,7 +47,11 @@ public class RecipeProductService {
 
     @Transactional
     public RecipeProduct addProductToRecipe(Integer recipeId, Integer productId, Integer productQuantity) {
-        return createProductRecipe(getProductById(productId), getRecipeById(recipeId), productQuantity);
+        var result = recipeProductRepository.findById(new RecipeProductId(recipeId, productId));
+        if(result.isEmpty())
+            return createProductRecipe(getProductById(productId), getRecipeById(recipeId), productQuantity);
+        recipeProductRepository.updateQuantityById(recipeId, productId, result.get().getQuantity() + productQuantity);
+        return recipeProductRepository.findById(new RecipeProductId(recipeId, productId)).get();
     }
 
     @Transactional(readOnly = true)

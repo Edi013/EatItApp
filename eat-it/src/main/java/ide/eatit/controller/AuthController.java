@@ -21,6 +21,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public BaseResponse register(@RequestBody AuthRequest authRequest) {
-        return authService.register(authRequest);
+        var result = authService.register(authRequest);
+        return result;
     }
 }

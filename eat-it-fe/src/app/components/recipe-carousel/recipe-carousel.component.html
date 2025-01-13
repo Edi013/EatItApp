@@ -23,17 +23,26 @@
       <mat-card-header>
         <!-- <mat-card-title> -->
           <h2 class="horizontalDirection">{{ filteredRecipes[currentIndex].name }}
-            <button mat-raised-button (click)="deleteRecipe()">
-              <mat-icon>restore_from_trash</mat-icon>
-            </button>
+            <div *ngIf="hasOwnedRecipesLoaded()">
+              <button  mat-raised-button (click)="deleteRecipe()">
+                <mat-icon>restore_from_trash</mat-icon>
+              </button>
+            </div>
           </h2>
         <!-- </mat-card-title> -->
       </mat-card-header>
       <div class="data">
-        <p class="areaTitle">Description</p> 
-        <mat-chip>
-          <p>{{ filteredRecipes[currentIndex].description }}</p>
-        </mat-chip>
+        <h4 class="areaTitle">Description</h4> 
+        <!-- <mat-chip> -->
+          <div class="maxWidth">
+
+            <i>
+              <b>
+                <p >{{ filteredRecipes[currentIndex].description }}</p>
+              </b>
+            </i>
+          </div>
+        <!-- </mat-chip> -->
       </div>
       <div class="data">
         <p *ngIf="currentRecipeComposition.length > 0" class="areaTitle">Ingredients</p>
@@ -45,7 +54,7 @@
                 <mat-chip> {{ ingredient.value }} RON / 100 g </mat-chip>
               </div>
             <div *ngIf="currentRecipeComposition.length === 0">
-              <p class="bold">No ingredients have been added</p>
+              <h4 class="bold">No ingredients have been added</h4>
             </div>
           </mat-chip-set>
         </div>
@@ -54,7 +63,7 @@
         </ng-template>
       </div>
       <div class="data">
-        <p class="areaTitle">Cost</p> 
+        <h4 class="areaTitle">Cost</h4> 
         <span class="bold">{{currentEstimatedCost}} RON</span> for a meal
       </div>
 

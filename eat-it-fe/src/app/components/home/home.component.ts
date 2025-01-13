@@ -6,6 +6,9 @@ import { ProductService } from '../../services/product.serice';
 import { ProductDto } from '../../models/dtos/product-dto';
 import {MatDividerModule} from '@angular/material/divider';
 import { TopBarComponent } from '../top-bar/top-bar.component';
+import { Router } from '@angular/router';
+import { CookiesService } from '../../services/utils/cookies.service';
+import { environment } from '../../environments/environment';
 
 
 @Component({
@@ -22,7 +25,7 @@ export class HomeComponent {
   recipes: RecipeDto[] = [];
   errorMessage: string | null = null;
 
-  constructor(private recipeService: RecipeService, private productService: ProductService) {}
+  constructor(private recipeService: RecipeService, private router: Router, private cookiesService: CookiesService) {}
 
   async ngOnInit(): Promise<void> {
    await this.getRecipes();

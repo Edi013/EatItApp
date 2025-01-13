@@ -1,4 +1,6 @@
+
 -- Step 1: Create the Database
+DROP DATABASE EatItApp;
 CREATE DATABASE EatItApp;
 
 -- Step 2: Use the Database
@@ -14,7 +16,7 @@ CREATE TABLE users (
 -- Step 4: Create the `products` table 
 CREATE TABLE products (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
     value DECIMAL(10, 2) NOT NULL  -- Adding value field to store price
 );
 
@@ -23,17 +25,17 @@ CREATE TABLE recipes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
-    estimatedCost DECIMAL(10, 2),
-    createdBy CHAR(36) NOT NULL,  -- UUID foreign key
+    estimated_cost DECIMAL(10, 2),
+    created_by CHAR(36) NOT NULL,  -- UUID foreign key
     FOREIGN KEY (createdBy) REFERENCES users(id) ON DELETE NO ACTION
 );
 
 -- Step 6: Create the `recipe_products` table
 CREATE TABLE recipe_products (
-    id INT AUTO_INCREMENT PRIMARY KEY,
     recipe_id INT NOT NULL,
     product_id INT NOT NULL,
     quantity INT NOT NULL DEFAULT 0,
+	PRIMARY KEY (recipe_id, product_id),
     FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
@@ -75,3 +77,22 @@ ON DELETE NO ACTION;
 -- Scripts used while developing 
 SELECT * FROM users;
 SELECT * FROM recipe_products;
+SELECT * FROM products;
+SELECT * FROM recipes 
+where recipes.created_by = "40670984-4e25-4e36-8c3b-19d46278d279";
+
+SHOW COLUMNS FROM users;
+SHOW COLUMNS FROM recipes;
+SHOW COLUMNS FROM recipe_products;
+SHOW COLUMNS FROM products;
+
+DESCRIBE recipes;
+DESCRIBE users;
+
+ALTER TABLE recipes DROP COLUMN estimatedCost;
+ALTER TABLE recipes DROP FOREIGN KEY recipes_ibfk_1;
+ALTER TABLE recipes DROP COLUMN createdBy;
+
+ALTER TABLE products DROP INDEX name;
+
+

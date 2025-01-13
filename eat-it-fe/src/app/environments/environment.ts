@@ -1,3 +1,5 @@
+import { HomeComponent } from "../components/home/home.component";
+
 export const environment = {
     production: false,
     baseUrl: 'http://localhost:8080',
@@ -10,6 +12,6 @@ export const environment = {
     createProductUrl: '/create-product',
     customizeRecipeUrl: '/customize-recipe',
     userRecipesUrl: '/user-recipes',
-
+    homeUrl: '/home',
   };
   

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
 import { CookiesService } from '../../services/utils/cookies.service';
 import { SnackbarService } from '../../services/utils/snackbar.service';
+import { environment } from '../../environments/environment';
 
 
 @Component({
@@ -56,5 +57,15 @@ export class TopBarComponent {
     }
     this.router.navigate([url]);
     this.snackbarService.showSnackbar("You are on " + pageName + " page now");
+  }
+  
+  logout(): void {
+    this.cookiesService.removeCookies();
+    this.refreshPage();
+  }
+  private refreshPage(): void {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([environment.loginUrl]);
+    });
   }
 }

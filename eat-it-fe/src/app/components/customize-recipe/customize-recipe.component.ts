@@ -14,6 +14,7 @@ import { ProductService } from '../../services/product.serice';
 import { RecipeService } from '../../services/recipe.service';
 import { CookiesService } from '../../services/utils/cookies.service';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-customize-recipe',
   imports: [
@@ -47,9 +48,6 @@ export class CustomizeRecipeComponent implements OnInit {
     private router: Router
   ) {
     this.userId = this.cookiesService.getUserId() ?? "";
-    // this.form = this.fb.group({
-    //   productSelection: this.fb.group({}),
-    // });
   }
 
   async ngOnInit(): Promise<void> {
@@ -129,7 +127,7 @@ export class CustomizeRecipeComponent implements OnInit {
 
   refreshPage(): void {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate([this.router.url]);
+      this.router.navigate([environment.customizeRecipeUrl]);
     });
   }
 }
