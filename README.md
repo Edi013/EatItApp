@@ -6,8 +6,6 @@
 Other information
 -----------------------------------------
 - Client-Server Architecture
-- It took around 2 weeks to finish with no spring boot previous experience 
-
   
 Features:
 -----------------------------------------
