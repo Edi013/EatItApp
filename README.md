@@ -7,6 +7,7 @@
    - Management Client, Workbench
    - Db diagram included
    - Docker compose file included
+   - It was meant to be database first, but hibernate allows multiple code first features with just a parameter modified in the config file.
 
 2. Angular
     - IDE, VS Code
